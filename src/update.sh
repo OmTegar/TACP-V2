@@ -38,5 +38,7 @@ echo "[*] Updating tacp executable..."
 echo -e "#!/bin/bash
 python3 /usr/share/doc/TACP-V2/src/script.py" '${1+"$@"}' > /usr/bin/tacp
 chmod +x /usr/bin/tacp
+chmod +x /usr/share/doc/TACP-V2
+chmod +x /usr/share/doc/TACP-V2/index.sh
 
 echo "[*] Update completed successfully!"
