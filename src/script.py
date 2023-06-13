@@ -122,7 +122,7 @@ def web_static():
 
 def web_static_sektema():
     os.system("cd WebStatic/sektema/ && python3 sektema.py")
-    clearScr()
+    # clearScr()
     web_static()
 
 def menu():
