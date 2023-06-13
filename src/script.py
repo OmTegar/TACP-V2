@@ -121,47 +121,53 @@ def web_static():
         menu()
 
 def web_static_sektema():
-    nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True).returncode == 0
+    print(banner + "\033[1m\n   [!] Some Tools By OmTegar WebServer - Static [!]\n\033[0m")
+    print("   {1}--Sektema")
+    print("   {2}--tegar")
+    print("   {99}-Back To The Main Menu\n\n")
+    choice4 = input("TACP >> ")
+    if choice4 == "1":
+        nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True).returncode == 0
 
-    if nginx_installed:
-        print("Nginx is installed, uninstalling and removing all files...")
-        subprocess.run(["systemctl", "stop", "nginx"])
-        subprocess.run(["apt-get", "remove", "--purge", "nginx", "nginx-common", "nginx-full", "-y"])
-        subprocess.run(["apt-get", "autoremove", "-y"])
-        subprocess.run(["rm", "-rf", "/etc/nginx"])
-        subprocess.run(["rm", "-rf", "/var/log/nginx"])
-        print("Nginx has been uninstalled and all files removed.")
-    else:
-        print("Nginx is not installed.")
-        print("Installing Nginx...")
-        subprocess.run(["apt-get", "install", "nginx", "-y"])
-        print("Nginx has been installed.")
+        if nginx_installed:
+            print("Nginx is installed, uninstalling and removing all files...")
+            subprocess.run(["systemctl", "stop", "nginx"])
+            subprocess.run(["apt-get", "remove", "--purge", "nginx", "nginx-common", "nginx-full", "-y"])
+            subprocess.run(["apt-get", "autoremove", "-y"])
+            subprocess.run(["rm", "-rf", "/etc/nginx"])
+            subprocess.run(["rm", "-rf", "/var/log/nginx"])
+            print("Nginx has been uninstalled and all files removed.")
+        else:
+            print("Nginx is not installed.")
+            print("Installing Apache2...")
+            subprocess.run(["apt-get", "install", "apache2", "-y"])
+            print("Apache2 has been installed.")
 
-    apache_installed = subprocess.run(["command", "-v", "apache2"], capture_output=True).returncode == 0
+        apache_installed = subprocess.run(["which", "apache2"], capture_output=True).returncode == 0
 
-    if not apache_installed:
-        subprocess.run(["apt-get", "install", "apache2", "-y"])
+        if not apache_installed:
+            subprocess.run(["apt-get", "install", "apache2", "-y"])
 
-    subprocess.run(["service", "apache2", "start"])
-    subprocess.run(["clear"])
+        subprocess.run(["service", "apache2", "start"])
+        subprocess.run(["clear"])
 
-    os.chdir("/var/www/html/")
-    subprocess.run(["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git"])
+        os.chdir("/var/www/html/")
+        subprocess.run(["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git"])
 
-    subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
+        subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
-    os.chdir("/etc/apache2/sites-available/")
-    config_text = '''
-    <VirtualHost *:80>
-            ServerAdmin webmaster@localhost
-            DocumentRoot /var/www/html/company-profile-sektema/
+        os.chdir("/etc/apache2/sites-available/")
+        config_text = '''
+        <VirtualHost *:80>
+                ServerAdmin webmaster@localhost
+                DocumentRoot /var/www/html/company-profile-sektema/
 
-            ErrorLog ${APACHE_LOG_DIR}/error.log
-            CustomLog ${APACHE_LOG_DIR}/access.log combined
-    </VirtualHost>
-    '''
-    clearScr()
-    web_static()
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>
+        '''
+        clearScr()
+        web_static()
 
 def menu():
     print (banner + """\033[1m
