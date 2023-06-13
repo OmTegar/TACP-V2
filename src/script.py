@@ -66,7 +66,13 @@ banner = GREEN + '''
                
            ~ Package Global Scripting Linux Version 2.1 ~ 
 '''
-
+if sys.prefix == "/data/data/com.termux/files/usr":
+    INSTALL_DIR = "/data/data/com.termux/files/usr/share/doc/TACP-V2"
+    BIN_DIR = "/data/data/com.termux/files/usr/bin/"
+    os.system("pkg install -y git python")
+else:
+    INSTALL_DIR = "/usr/share/doc/TACP-V2"
+    BIN_DIR = "/usr/bin/"
 
 # Function to print a message in green color
 def success_message(message):
@@ -94,8 +100,8 @@ def update_tacp():
     print ("This Tool is Only Available for Linux and Similar Systems. ")
     choiceupdate = input("Continue Y / N: ")
     if choiceupdate in ['Y', 'y']:
-        os.system("git clone https://github.com/OmTegar/TACP-V2.git")  
-        os.system("cd TACP-V2 && sudo bash ./src/update.sh")
+        os.system(f"git clone https://github.com/OmTegar/TACP-V2.git {INSTALL_DIR}")  
+        os.system(f"cd {INSTALL_DIR} && sudo bash ./src/update.sh")
         os.system("tacp")
 
 def web_static():
