@@ -120,7 +120,6 @@ def web_static():
         clearScr()
         menu()
 
-
 def menu():
     print (banner + """\033[1m
    [!] Coded By OmTegar [!] https://omtegar.me [!]
