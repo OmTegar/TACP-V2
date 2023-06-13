@@ -98,50 +98,28 @@ def update_tacp():
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
         os.system("TACP")
 
-def run_web_static():
-    options = ["Company Profile Sektema", "Company Profile OmTegar", "Company Profile Aisyatul", "Bootstrap Template Studio", "Mini Games By OmTegar ( Basics )", "Quit"]
+def web_static():
+    print (banner + """\033[1m
+   [!] Some Tools By OmTegar WebServer - Static [!]
+ """)
+    print("   {1}--Sektema ")
+    print("   {2}--tegar")
+    print("   {99}-Back To The Main Menu \n\n")
+    choice4 = input("TACP >> ")
+    if choice4 == "1":
+        os.system("python3 /WebStatic/sektema/sektema.py")
+    if choice4 == "2":
+        os.system("python3 /WebStatic/tegar/tegar.py")
+    elif choice4 == "99":
+        clearScr()
+        menu()
+    elif choice4 == "":
+        clearScr()
+        menu()
+    else:
+        clearScr()
+        menu()
 
-    print("Pilih Apps Yang ingin anda gunakan :")
-    while True:
-        print("Please enter your choice:")
-        for i, opt in enumerate(options, start=1):
-            print(f"{i}. {opt}")
-        choice = input(">> ")
-
-        if choice == "1":
-            subprocess.run(["./asset/WebStatis/sektema/sektema.sh"])
-            success_message("Aplikasi Anda Sudah Terinstall Dengan Baik")
-            success_message("Lakukan checking Ulang")
-            success_message("Terimakasih Telah Menggunakan Layanan kami")
-            break
-        elif choice == "2":
-            subprocess.run(["./asset/WebStatis/tegar/tegar.sh"])
-            success_message("Aplikasi Anda Sudah Terinstall Dengan Baik")
-            success_message("Lakukan checking Ulang")
-            success_message("Terimakasih Telah Menggunakan Layanan kami")
-            break
-        elif choice == "3":
-            subprocess.run(["./asset/WebStatis/aisyatul/aisyatul.sh"])
-            success_message("Aplikasi Anda Sudah Terinstall Dengan Baik")
-            success_message("Lakukan checking Ulang")
-            success_message("Terimakasih Telah Menggunakan Layanan kami")
-            break
-        elif choice == "4":
-            subprocess.run(["./asset/WebStatis/bootstrap/template.sh"])
-            success_message("Aplikasi Anda Sudah Terinstall Dengan Baik")
-            success_message("Lakukan checking Ulang")
-            success_message("Terimakasih Telah Menggunakan Layanan kami")
-            break
-        elif choice == "5":
-            subprocess.run(["./asset/WebStatis/games/games.sh"])
-            success_message("Aplikasi Anda Sudah Terinstall Dengan Baik")
-            success_message("Lakukan checking Ulang")
-            success_message("Terimakasih Telah Menggunakan Layanan kami")
-            break
-        elif choice == "6":
-            break
-        else:
-            error_message("Pilihan tidak valid, silakan coba lagi")
 
 def menu():
     print (banner + """\033[1m
@@ -154,7 +132,7 @@ def menu():
     choice = input("TACP >> ")
     os.system('clear')
     if choice == "1":
-        run_web_static()
+        web_static()
     elif choice == "2":
         passwd()
     elif choice == "0":
