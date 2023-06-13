@@ -101,7 +101,7 @@ def update_tacp():
 def web_static():
     print (banner + """\033[1m
    [!] Some Tools By OmTegar WebServer - Static [!]
- """)
+  \033[0m""")
     print("   {1}--Sektema ")
     print("   {2}--tegar")
     print("   {99}-Back To The Main Menu \n\n")
