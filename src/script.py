@@ -121,10 +121,9 @@ def web_static():
         menu()
 
 def web_static_sektema():
-    os.system("git clone https://github.com/1ucif3r/Obfuscator.git")
-    # os.system("cd WebStatic/sektema/ && python3 sektema.py")
-    # clearScr()
-    # web_static()
+    os.system("cd /usr/share/doc/TACP-V2/src/WebStatic/sektema/ && python3 sektema.py")
+    clearScr()
+    web_static()
 
 def menu():
     print (banner + """\033[1m
