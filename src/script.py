@@ -64,7 +64,7 @@ banner = GREEN + '''
           8 8888 .888888888.  88888.  8888     ,88'  8 8888         
           8 8888.8'        8.  88888.   8888888P'    8 8888    
                
-           ~ Package Global Scripting Linux Version 2.1 ~ 
+           ~ Package Global Scripting Linux Version 2.2 ~ 
 '''
 
 
