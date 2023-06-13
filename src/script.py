@@ -172,6 +172,4 @@ if __name__ == "__main__":
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
-        time.sleep(0.25)
-
-        
+        time.sleep(0.25)     
