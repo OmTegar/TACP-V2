@@ -107,9 +107,9 @@ def web_static():
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
-        os.system("python3 /src/WebStatic/sektema/sektema.py")
+        os.system("python3 WebStatic/sektema/sektema.py")
     if choice4 == "2":
-        os.system("python3 /WebStatic/tegar/tegar.py")
+        os.system("python3 WebStatic/tegar/tegar.py")
     elif choice4 == "99":
         clearScr()
         menu()

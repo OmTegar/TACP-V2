@@ -96,6 +96,7 @@ git clone https://github.com/OmTegar/TACP-V2.git "$INSTALL_DIR";
 echo "#!/bin/bash
 python3 $INSTALL_DIR/src/script.py" '${1+"$@"}' > /usr/bin/tacp;
 chmod +x /usr/bin/tacp;
+chmod +x "$INSTALL_DIR"
 chmod +x "$INSTALL_DIR/index.sh"
 
 
