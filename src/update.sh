@@ -1,54 +1,42 @@
-#
-#     ██████   █████  ██████  ██   ██  █████  ██████  ███    ███ ██    ██ 
-#     ██   ██ ██   ██ ██   ██ ██  ██  ██   ██ ██   ██ ████  ████  ██  ██  
-#     ██   ██ ███████ ██████  █████   ███████ ██████  ██ ████ ██   ████   
-#     ██   ██ ██   ██ ██   ██ ██  ██  ██   ██ ██   ██ ██  ██  ██    ██    
-#     ██████  ██   ██ ██   ██ ██   ██ ██   ██ ██   ██ ██      ██    ██    "
-#
-#                          ~@~ code by 1ucif3r ~@~
+#!/bin/bash
 
 clear
 
-sudo chmod +x /etc/
-
 clear
 
-sudo chmod +x /usr/share/doc
+counter=0
+(
 
-clear
+while :
+do
+cat <<EOF
+XXX
+$counter
+Loading TACP-V2 INSTALLER UPDATE( $counter%):
+XXX
+EOF
 
-sudo rm -rf /usr/share/doc/TACP-V2/
+(( counter+=20 ))
+[ $counter -eq 100 ] && break
 
-clear
+sleep 1
+done
+) |
+whiptail --title " TACP-V2 " --gauge "Please wait" 7 70 0
+echo "=============="
 
-cd /etc/
+# Menghapus direktori TACP-V2
+echo "[*] Removing existing TACP-V2..."
+rm -rf /usr/share/doc/TACP-V2
 
-clear
+# Mengunduh versi terbaru dari repositori GitHub
+echo "[*] Downloading latest version..."
+git clone https://github.com/OmTegar/TACP-V2.git /usr/share/doc/TACP-V2
 
-sudo rm -rf /etc/TACP-V2
+# Mengupdate file eksekusi tacp
+echo "[*] Updating tacp executable..."
+echo -e "#!/bin/bash
+python3 /usr/share/doc/TACP-V2/src/script.py" '${1+"$@"}' > /usr/bin/tacp
+chmod +x /usr/bin/tacp
 
-clear
-
-mkdir TACP-V2
-
-clear
-
-cd TACP-V2
-
-clear
-
-git clone https://github.com/OmTegar/TACP-V2.git
-
-clear
-
-cd TACP-V2
-
-clear
-
-sudo chmod +x index.sh
-
-clear
-
-./index.sh
-
-clear
+echo "[*] Update completed successfully!"
