@@ -27,7 +27,7 @@ do
 cat <<EOF
 XXX
 $counter
-Loading TACP INSTALLER ....( $counter%):
+Loading TACP-V2 INSTALLER ....( $counter%):
 XXX
 EOF
 
@@ -37,7 +37,7 @@ EOF
 sleep 1
 done
 ) |
-whiptail --title " TACP " --gauge "Please wait" 7 70 0
+whiptail --title " TACP-V2 " --gauge "Please wait" 7 70 0
 
 
 
@@ -56,28 +56,28 @@ echo "           8 8888  .8'    8.  88888. 8 8888       .8  8 8888              
 echo "           8 8888 .888888888.  88888.  8888     ,88'  8 8888                "
 echo "           8 8888.8'        8.  88888.   8888888P'    8 8888   V1.2         "
 echo "                                                                            ";
-echo "                             Welcome To TACP Installer Custom Syntax        ";
+echo "                             Welcome To TACP-V2 Installer Custom Syntax        ";
 echo -e "${GREEN}===================================================================${NC}"
 echo -e "${BLUE}   www.omtegar.me | Instagram.com/tega_r.dp | Github.com/OmTegar    ${NC}"
 echo -e "${GREEN}===================================================================${NC}"
 echo -e "${RED}                                   [!] This Tool Must Run As ROOT [!]${NC}\n"
 echo ""
-echo -e "${CYAN}[>] Press ENTER to Install TACP, CTRL+C to Abort.${NC}"
+echo -e "${CYAN}[>] Press ENTER to Install TACP-V2, CTRL+C to Abort.${NC}"
 read INPUT
 echo ""
 
 if [ "$PREFIX" = "/data/data/com.termux/files/usr" ]; then
-    INSTALL_DIR="$PREFIX/usr/share/doc/TACP"
+    INSTALL_DIR="$PREFIX/usr/share/doc/TACP-V2"
     BIN_DIR="$PREFIX/usr/bin/"
     pkg install -y git python2
 else
-    INSTALL_DIR="/usr/share/doc/TACP"
+    INSTALL_DIR="/usr/share/doc/TACP-V2"
     BIN_DIR="/usr/bin/"
 fi
 
 echo "[✔] Checking directories...";
 if [ -d "$INSTALL_DIR" ]; then
-    echo "[!] A Directory TACP Was Found.. Do You Want To Replace It ? [y/n]:" ;
+    echo "[!] A Directory TACP-V2 Was Found.. Do You Want To Replace It ? [y/n]:" ;
     read mama
     if [ "$mama" = "y" ]; then
         rm -R "$INSTALL_DIR"
