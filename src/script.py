@@ -96,7 +96,7 @@ def update_tacp():
     if choiceupdate in ['Y', 'y']:
         os.system("git clone https://github.com/OmTegar/TACP-V2.git")  
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
-        os.system("TACP")
+        os.system("tacp")
 
 def web_static():
     print (banner + """\033[1m
