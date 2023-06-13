@@ -107,7 +107,9 @@ def web_static():
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
-        os.system("cd /usr/share/doc/TACP-V2/src/WebStatic/sektema/ && python3 sektema.py ")
+        exec(open("./WebStatic/sektema/sektema.py").read())
+        web_static_sektema = open("./WebStatic/sektema/sektema.py", "r")
+        os.system(web_static_sektema.read())
     if choice4 == "2":
         os.system("python3 WebStatic/tegar/tegar.py")
     elif choice4 == "99":

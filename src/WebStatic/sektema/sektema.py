@@ -1,6 +1,3 @@
-import subprocess
-import os
-
 # Skrip utama
 exec(open("./script.py").read())
 
