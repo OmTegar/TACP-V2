@@ -94,7 +94,7 @@ echo "[✔] Installing ...";
 echo "";
 git clone https://github.com/OmTegar/TACP-V2.git "$INSTALL_DIR";
 echo "#!/bin/bash
-python $INSTALL_DIR/src/function.py" '${1+"$@"}' > /usr/bin/tacp;
+python3 $INSTALL_DIR/src/script.py" '${1+"$@"}' > /usr/bin/tacp;
 chmod +x /usr/bin/tacp;
 chmod +x "$INSTALL_DIR/index.sh"
 
