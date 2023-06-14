@@ -133,6 +133,7 @@ def web_static():
         nginx_installed_check()
         web_static_sektema()
     elif choice4 == "2":
+        nginx_installed_check()
         web_static_tegar()
     elif choice4 == "99":
         clearScr()
@@ -182,30 +183,39 @@ def web_static_sektema():
 
 
 def web_static_tegar():
-    nginx_installed_check()
-    subprocess.run(
-        ["git", "clone", "https://github.com/OmTegar/my-company-profile.git", "/var/www/html/"])
-    subprocess.run(["chmod", "777", "-R", "/var/www/html/my-company-profile/"])
+    try:
+        if os.path.exists('/var/www/html/my-company-profile/'):
+            print("The application directory already exists.")
+        else:
+            subprocess.run(["git", "clone", "https://github.com/OmTegar/my-company-profile.git",
+                            "/var/www/html/my-company-profile/"])
+            print("The installation process of the application has been successfully executed")
+        subprocess.run(
+            ["chmod", "777", "-R", "/var/www/html/my-company-profile/"])
 
-    config_text = '''<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/my-company-profile/
+        config_text = '''<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html/my-company-profile/
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-'''
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>
+        '''
 
-    with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
-        config_file.write(config_text)
+        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
+            config_file.write(config_text)
 
-    subprocess.run(["service", "apache2", "restart"])
+        subprocess.run(["service", "apache2", "restart"])
+    
+        clearScr()
+        print(credit + """\033[1m
+             [!] Credit By OmTegar [!] https://omtegar.me [!]
+         """)
+        web_static()
 
-    clearScr()
-    print(credit + """\033[1m 
-        [!] Credit By OmTegar [!] https://omtegar.me [!]
-    """)
-    web_static()
+    except subprocess.CalledProcessError as e:
+        print("There was an error during the installation process of the application:")
+        print(e)
 
 
 def menu():
