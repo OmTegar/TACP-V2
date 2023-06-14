@@ -356,16 +356,13 @@ def web_static():
 
 def install_framework_static_node(repository, path):
     try:
+        subprocess.run(["apt", "install", "git", "-y"])  # Install git if not already installed
+
         if os.path.exists(path):
             print("Removing existing application directory...")
             subprocess.run(["rm", "-rf", path])
-            subprocess.run(["mkdir", "-p", path])
-            subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
-        else:
-            subprocess.run(["mkdir", "-p", path])
-            subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
+
+        subprocess.run(["git", "clone", repository, path])
         subprocess.run(["chmod", "777", "-R", path])
 
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
@@ -382,7 +379,6 @@ def install_framework_static_node(repository, path):
 
         subprocess.run(["npm", "install", "pm2", "-g"])
 
-        subprocess.run(["git", "clone", repository, path])
         subprocess.run(["npm", "install"], cwd=path)
         subprocess.run(["pm2", "startup"])
 
@@ -392,6 +388,7 @@ def install_framework_static_node(repository, path):
         configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
 
+        print("The installation process of the application has been successfully executed")
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
         print(e)
