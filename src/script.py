@@ -379,11 +379,12 @@ def install_framework_static_node(repository, path):
 
         subprocess.run(["npm", "install", "pm2", "-g"])
 
-        subprocess.run(["npm", "install"], cwd=path)
+        os.chdir(path)  # Change current working directory to 'path'
+        subprocess.run(["npm", "install"])
         subprocess.run(["pm2", "startup"])
 
         subprocess.run(["pm2", "delete", "0"])
-        subprocess.run(["pm2", "start", "index.js"], cwd=path)
+        subprocess.run(["pm2", "start", "index.js"])
 
         configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
