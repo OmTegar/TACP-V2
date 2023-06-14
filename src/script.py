@@ -457,6 +457,7 @@ def web_Framework():
     choice4 = input("TACP/WebFramework/ >> ")
     if choice4 == "1":
         web_framework_static()
+        clearScr()
     elif choice4 == "2":
         soon()
     elif choice4 == "99":
