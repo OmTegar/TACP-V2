@@ -43,7 +43,7 @@ def soon():
 
  \033[0m''')
     print("  {99}-Back To Main Menu \n\n")
-    choice2 = input("RAT >> ")
+    choice2 = input("TACP >> ")
 
     if choice2 == "99":
         clearScr()
@@ -402,10 +402,11 @@ def web_framework_static_node():
     print("   {1}--node tegar")
     print("   {2}--node2")
     print("   {99}-Back To The Main Menu \n\n")
-    choice4 = input("TACP >> ")
+    choice4 = input("TACP/WebFramework/Static/NodeJS/ >> ")
     if choice4 == "1":
         apache_installed_check()
         install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
+        clearScr()
     elif choice4 == "2":
         soon()
     elif choice4 == "99":
@@ -427,9 +428,10 @@ def web_framework_static():
     print("   {2}--React JS (SOON)")
     print("   {3}--Next JS (SOON)")
     print("   {99}-Back To The Main Menu \n\n")
-    choice4 = input("TACP/WebFramework >> ")
+    choice4 = input("TACP/WebFramework/Static/ >> ")
     if choice4 == "1":
-        web_framework_static()
+        web_framework_static_node()
+        clearScr()
     elif choice4 == "2":
         web_framework_static_react()
     elif choice4 == "3":
@@ -452,7 +454,7 @@ def web_Framework():
     print("   {1}--Framework Static ")
     print("   {2}--Framework Dynamic (SOON)")
     print("   {99}-Back To The Main Menu \n\n")
-    choice4 = input("TACP >> ")
+    choice4 = input("TACP/WebFramework/ >> ")
     if choice4 == "1":
         web_framework_static()
     elif choice4 == "2":
