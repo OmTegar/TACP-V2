@@ -137,7 +137,7 @@ def nginx_installed_check():
 
     if "apache2" not in apache_output.decode():
         print("Installing Apache2...")
-        subprocess.run(["apt-get", "install", "apache2", "-y"])
+        subprocess.run(["apt", "install", "apache2", "-y"])
         print("Apache2 has been installed.")
 
     subprocess.run(["service", "apache2", "start"])
@@ -170,7 +170,7 @@ def web_static():
 def web_static_sektema():
     try:
         subprocess.run(
-            ["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
+            ["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git", "/var/www/html/"])
         print("The installation process of the application has been successfully executed")
         subprocess.run(
             ["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
