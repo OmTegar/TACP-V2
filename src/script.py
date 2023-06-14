@@ -71,7 +71,7 @@ banner = GREEN + '''
 credit = BLUE + '''  
     [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
      [+]                                                             [+]
-    [+]     ✔✔✔ Your application has been installed (tacp) ✔✔✔   [+]
+    [+]   ✔✔✔ Your application has been installed (tacp) ✔✔✔     [+]
      [+]                                                             [+]
     [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
 '''
