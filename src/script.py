@@ -531,7 +531,7 @@ def write_ftp_data(ServerName, port, new_user, password):
 
 def ftp_server():
     clearScr()
-    banner()
+    print(banner)
     warning_message("Starting Configuration FTP Server")
 
     ServerName = input("Masukkan Server Name yang Anda inginkan: ")
