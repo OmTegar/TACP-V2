@@ -15,6 +15,7 @@ CYAN='\e[96m'
 WHITE='\e[37m'
 NC='\e[0m'
 purpal='\033[35m'
+RESET='\x1b[0m'
 
 
 clear
@@ -114,6 +115,6 @@ then
         echo            "       [+]                                                             [+]"
         echo -e $GREEN "       [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]"
 else
-    echo -e "[✘] Installation Failed. Please try again. [✘]${NC}";
+    echo -e "[✘] Installation Failed. Please try again. [✘]${RESET}";
     exit
 fi

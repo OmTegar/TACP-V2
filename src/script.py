@@ -616,9 +616,9 @@ Include /etc/proftpd/conf.d/
         file.write(file_content_proftpd)
 
     new_user = ServerName
-    # subprocess.run(["adduser", new_user])
+    subprocess.run(["adduser", new_user])
     password = input("Masukkan password FTP server Anda: ")
-    subprocess.run(["adduser", "--disabled-password", "--gecos", "", new_user])
+    # subprocess.run(["adduser", "--disabled-password", "--gecos", "", new_user])
     subprocess.run(["chpasswd"], input=f"{new_user}:{password}", encoding="utf-8", shell=True)
     subprocess.run(["usermod", "-aG", "sudo", new_user])
     print(f"Pengguna {new_user} berhasil ditambahkan.")
