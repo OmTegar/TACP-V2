@@ -108,7 +108,7 @@ def update_tacp():
         os.system("tacp")
 
 def nginx_installed_check():
-    nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True).returncode == 0
+    nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True, text=True).returncode == 0
 
     if nginx_installed:
         print("Nginx is installed, uninstalling and removing all files...")
@@ -121,7 +121,7 @@ def nginx_installed_check():
     else:
         print("Nginx is not installed.")
 
-    apache_installed = subprocess.run(["which", "apache2"], capture_output=True).returncode == 0
+    apache_installed = subprocess.run(["which", "apache2"], capture_output=True, text=True).returncode == 0
 
     if not apache_installed:
         print("Installing Apache2...")
