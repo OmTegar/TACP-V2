@@ -421,6 +421,7 @@ def web_framework_static_node():
 
 
 def web_framework_static():
+    clearScr()
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebFramework - Static [!]
   \033[0m""")
