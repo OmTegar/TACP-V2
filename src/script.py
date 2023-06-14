@@ -484,8 +484,10 @@ def menu():
     os.system('clear')
     if choice == "1":
         web_static()
+        clearScr()
     elif choice == "2":
         web_Framework()
+        clearScr()
     elif choice == "0":
         update_tacp()
     elif choice == "99":
