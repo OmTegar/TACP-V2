@@ -107,29 +107,7 @@ def update_tacp():
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
         os.system("tacp")
 
-def web_static():
-    print (banner + """\033[1m
-   [!] Some Tools By OmTegar WebServer - Static [!]
-  \033[0m""")
-    print("   {1}--Sektema ")
-    print("   {2}--tegar")
-    print("   {99}-Back To The Main Menu \n\n")
-    choice4 = input("TACP >> ")
-    if choice4 == "1":
-        web_static_sektema()
-    if choice4 == "2":
-        os.system("python3 WebStatic/tegar/tegar.py")
-    elif choice4 == "99":
-        clearScr()
-        menu()
-    elif choice4 == "":
-        clearScr()
-        menu()
-    else:
-        clearScr()
-        menu()
-
-def web_static_sektema():
+def nginx_installed_check():
     nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True).returncode == 0
 
     if nginx_installed:
@@ -149,20 +127,69 @@ def web_static_sektema():
         print("Installing Apache2...")
         subprocess.run(["apt-get", "install", "apache2", "-y"])
         print("Apache2 has been installed.")
-
+    
     subprocess.run(["service", "apache2", "start"])
+
+def web_static():
+    print (banner + """\033[1m
+   [!] Some Tools By OmTegar WebServer - Static [!]
+  \033[0m""")
+    print("   {1}--Sektema ")
+    print("   {2}--tegar")
+    print("   {99}-Back To The Main Menu \n\n")
+    choice4 = input("TACP >> ")
+    if choice4 == "1":
+        web_static_sektema()
+    if choice4 == "2":
+        web_static_tegar()
+    elif choice4 == "99":
+        clearScr()
+        menu()
+    elif choice4 == "":
+        clearScr()
+        menu()
+    else:
+        clearScr()
+        menu()
+
+def web_static_sektema():
+    nginx_installed_check()
     subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
     subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
-    config_text = '''
-    <VirtualHost *:80>
-            ServerAdmin webmaster@localhost
-            DocumentRoot /var/www/html/company-profile-sektema/
+    config_text = '''<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/company-profile-sektema/
 
-            ErrorLog ${APACHE_LOG_DIR}/error.log
-            CustomLog ${APACHE_LOG_DIR}/access.log combined
-    </VirtualHost>
-    '''
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+'''
+
+    with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
+        config_file.write(config_text)
+
+    subprocess.run(["service", "apache2", "restart"])
+
+    clearScr()
+    print (credit + """\033[1m 
+        [!] Credit By OmTegar [!] https://omtegar.me [!]
+    """)
+    web_static()
+
+def web_static_tegar():
+    nginx_installed_check()
+    subprocess.run(["git", "clone", "https://github.com/OmTegar/my-company-profile.git", "/var/www/html/"])
+    subprocess.run(["chmod", "777", "-R", "/var/www/html/my-company-profile/"])
+
+    config_text = '''<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/my-company-profile/
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+'''
 
     with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
         config_file.write(config_text)
