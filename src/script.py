@@ -124,7 +124,10 @@ def nginx_installed_check():
 def install_web_static(repository, path):
     try:
         if os.path.exists(path):
-            print("The application directory already exists.")
+            print("Removing existing application directory...")
+            subprocess.run(["rm", "-rf", path])
+            subprocess.run(["git", "clone", repository, path])
+            print("The installation process of the application has been successfully executed")
         else:
             subprocess.run(["git", "clone", repository, path])
             print("The installation process of the application has been successfully executed")
