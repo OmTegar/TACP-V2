@@ -624,6 +624,8 @@ Include /etc/proftpd/conf.d/
 
     write_ftp_data(ServerName, port, new_user, password)
 
+    time.sleep(15)
+
 def menu():
     print(banner + """\033[1m
    [!] Coded By OmTegar [!] https://omtegar.me [!]
@@ -645,6 +647,7 @@ def menu():
     elif choice == "3":
         ftp_server()
         clearScr()
+        menu()
     elif choice == "0":
         update_tacp()
     elif choice == "99":
