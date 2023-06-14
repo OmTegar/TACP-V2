@@ -151,24 +151,20 @@ def web_static_sektema():
         print("Apache2 has been installed.")
 
     subprocess.run(["service", "apache2", "start"])
-    subprocess.run(["clear"])
-
-    os.chdir("/var/www/html/")
-    subprocess.run(["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git"])
-
+    subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
     subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
-    os.chdir("/etc/apache2/sites-available/")
     config_text = '''
-        <VirtualHost *:80>
-                ServerAdmin webmaster@localhost
-                DocumentRoot /var/www/html/company-profile-sektema/
+    <VirtualHost *:80>
+            ServerAdmin webmaster@localhost
+            DocumentRoot /var/www/html/company-profile-sektema/
 
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-        </VirtualHost>
-        '''
-    with open("000-default.conf", "a") as config_file:
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
+    </VirtualHost>
+    '''
+
+    with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
         config_file.write(config_text)
 
     subprocess.run(["service", "apache2", "restart"])
