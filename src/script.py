@@ -139,6 +139,7 @@ def web_static():
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
+        nginx_installed_check()
         web_static_sektema()
     if choice4 == "2":
         web_static_tegar()
@@ -153,8 +154,6 @@ def web_static():
         menu()
 
 def web_static_sektema():
-    nginx_installed_check()
-
     try:
         subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
         print("The installation process of the application has been successfully executed")
