@@ -18,29 +18,9 @@ import sys
 import argparse
 import os
 import time
-# import httplib
 import subprocess
-import re
-# import urllib2
 import socket
-import urllib
-import sys
-import json
-import telnetlib
-import glob
-import random
-# import Queue
-import threading
-# import requests
-import base64
-from getpass import getpass
-# from commands import *
-from sys import argv
-from platform import system
-# from urlparse import urlparse
-from xml.dom import minidom
-from optparse import OptionParser
-from time import sleep
+
 ##########################
 os.system('clear')
 
@@ -52,7 +32,7 @@ YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
 # Set banner text
-banner = GREEN + '''  
+banner = GREEN + '''
     8888888 8888888888   .8.           ,o888888o.    8 888888888o   
           8 8888        .888.         8888      88.  8 8888     88. 
           8 8888       :88888.     ,8 8888        8. 8 8888      88 
@@ -63,7 +43,7 @@ banner = GREEN + '''
           8 8888  .8'    8.  88888. 8 8888       .8  8 8888         
           8 8888 .888888888.  88888.  8888     ,88'  8 8888         
           8 8888.8'        8.  88888.   8888888P'    8 8888    
-               
+
            ~ Package Global Scripting Linux Version 2.1 ~ 
 '''
 
@@ -81,15 +61,13 @@ credit = BLUE + '''
 def success_message(message):
     print(f"{GREEN}[*] {message}{RESET}")
 
+
 # Function to print a message in yellow color
-
-
 def warning_message(message):
     print(f"{YELLOW}[!] {message}{RESET}")
 
+
 # Function to print a message in red color
-
-
 def error_message(message):
     print(f"{RED}[X] {message}{RESET}")
 
@@ -123,7 +101,7 @@ def nginx_installed_check():
         print("Nginx is installed, uninstalling and removing all files...")
         subprocess.run(["systemctl", "stop", "nginx"])
         subprocess.run(["apt-get", "remove", "--purge", "nginx",
-                       "nginx-common", "nginx-full", "-y"])
+                        "nginx-common", "nginx-full", "-y"])
         subprocess.run(["apt-get", "autoremove", "-y"])
         subprocess.run(["rm", "-rf", "/etc/nginx"])
         subprocess.run(["rm", "-rf", "/var/log/nginx"])
@@ -154,7 +132,7 @@ def web_static():
     if choice4 == "1":
         nginx_installed_check()
         web_static_sektema()
-    if choice4 == "2":
+    elif choice4 == "2":
         web_static_tegar()
     elif choice4 == "99":
         clearScr()
@@ -169,9 +147,12 @@ def web_static():
 
 def web_static_sektema():
     try:
-        subprocess.run(
-            ["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git", "/var/www/html/"])
-        print("The installation process of the application has been successfully executed")
+        if os.path.exists('/var/www/html/company-profile-sektema/'):
+            print("The application directory already exists.")
+        else:
+            subprocess.run(["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git",
+                            "/var/www/html/company-profile-sektema/"])
+            print("The installation process of the application has been successfully executed")
         subprocess.run(
             ["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
@@ -188,12 +169,13 @@ def web_static_sektema():
             config_file.write(config_text)
 
         subprocess.run(["service", "apache2", "restart"])
-
+    
         # clearScr()
         # print(credit + """\033[1m
         #     [!] Credit By OmTegar [!] https://omtegar.me [!]
         # """)
         # web_static()
+
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
         print(e)
