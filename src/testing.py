@@ -21,6 +21,7 @@ banner = GREEN + '''
            ~ Package Global Scripting Linux Version 2.1 ~
 '''
 
+
 def update_tacp():
     print("This Tool is Only Available for Linux and Similar Systems. ")
     choiceupdate = input("Continue Y / N: ")
@@ -28,6 +29,7 @@ def update_tacp():
         os.system("git clone https://github.com/OmTegar/TACP-V2.git")
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
         os.system("tacp")
+
 
 def apache_installed_check():
     apache_installed = subprocess.Popen(
@@ -56,6 +58,7 @@ def apache_installed_check():
 
     subprocess.run(["service", "nginx", "start"])
 
+
 def configure_nginx(port):
     nginx_conf = f'''
 user www-data;
@@ -65,32 +68,64 @@ include /etc/nginx/modules-enabled/*.conf;
 
 events {{
     worker_connections 768;
+    # multi_accept on;
 }}
 
 http {{
 
+    ##
+    # Basic Settings
+    ##
+
     sendfile on;
     tcp_nopush on;
     types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
 
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
     ssl_prefer_server_ciphers on;
+
+    ##
+    # Logging Settings
+    ##
 
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
 
+    ##
+    # Gzip Settings
+    ##
+
     gzip on;
 
+    # gzip_vary on;
+    # gzip_proxied any;
+    # gzip_comp_level 6;
+    # gzip_buffers 16 8k;
+    # gzip_http_version 1.1;
+    # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    ##
+    # Virtual Host Configs
+    ##
+
     include /etc/nginx/conf.d/*.conf;
-    
+
     server {{
-        listen      80;
-        listen      [::]:80;
+        listen     80;
+        listen     [::]:80;
         server_name _;
-    
+
         location / {{
             proxy_pass http://localhost:{port};
         }}
@@ -100,6 +135,7 @@ http {{
     with open("/etc/nginx/nginx.conf", "w") as nginx_conf_file:
         nginx_conf_file.write(nginx_conf)
 
+
 def configure_index_nginx(port):
     index_js = f'''
 var http = require("http");
@@ -107,80 +143,90 @@ var fs = require("fs");
 var path = require("path");
 var port = {port};
 
-http.createServer(function (request, response) {{
+http
+  .createServer(function (request, response) {
     console.log("request ", request.url);
 
     var filePath = "." + request.url;
-    if (filePath == "./") {{
-        filePath = "./app/index.html";
-    }}
+    if (filePath == "./") {
+      filePath = "./app/index.html";
+    }
 
     var extname = String(path.extname(filePath)).toLowerCase();
-    var mimeTypes = {{
-        ".html": "text/html",
-        ".js": "text/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpg",
-        ".gif": "image/gif",
-        ".svg": "image/svg+xml",
-        ".wav": "audio/wav",
-        ".mp4": "video/mp4",
-        ".woff": "application/font-woff",
-        ".ttf": "application/font-ttf",
-        ".eot": "application/vnd.ms-fontobject",
-        ".otf": "application/font-otf",
-        ".wasm": "application/wasm",
-    }};
+    var mimeTypes = {
+      ".html": "text/html",
+      ".js": "text/javascript",
+      ".css": "text/css",
+      ".json": "application/json",
+      ".png": "image/png",
+      ".jpg": "image/jpg",
+      ".gif": "image/gif",
+      ".svg": "image/svg+xml",
+      ".wav": "audio/wav",
+      ".mp4": "video/mp4",
+      ".woff": "application/font-woff",
+      ".ttf": "application/font-ttf",
+      ".eot": "application/vnd.ms-fontobject",
+      ".otf": "application/font-otf",
+      ".wasm": "application/wasm",
+    };
 
     var contentType = mimeTypes[extname] || "application/octet-stream";
 
-    fs.readFile(filePath, function (error, content) {{
-        if (error) {{
-            if (error.code == "ENOENT") {{
-                fs.readFile("./404.html", function (error, content) {{
-                    response.writeHead(404, {{ "Content-Type": "text/html" }});
-                    response.end(content, "utf-8");
-                }});
-            }} else {{
-                response.writeHead(500);
-                response.end("Sorry, check with the site admin for error: " + error.code + " ..\n");
-            }}
-        }} else {{
-            response.writeHead(200, {{ "Content-Type": contentType }});
+    fs.readFile(filePath, function (error, content) {
+      if (error) {
+        if (error.code == "ENOENT") {
+          fs.readFile("./404.html", function (error, content) {
+            response.writeHead(404, { "Content-Type": "text/html" });
             response.end(content, "utf-8");
-        }}
-    }});
-}})
-.listen({port});
+          });
+        } else {
+          response.writeHead(500);
+          response.end(
+            "Sorry, check with the site admin for error: " +
+              error.code +
+              " ..\n"
+          );
+        }
+      } else {
+        response.writeHead(200, { "Content-Type": contentType });
+        response.end(content, "utf-8");
+      }
+    });
+  })
+  .listen({port});
 
 console.log("Server running at http://127.0.0.1:" + {port});
 '''
     with open("/var/www/node-website-static1/index.js", "w") as index_js_file:
         index_js_file.write(index_js)
 
+
 def install_framework_static_node(repository, path):
     try:
+        print("Masukkan Port yang Anda inginkan (81 - 9000): ")
+        port = input("Your Answer: ")
+
         if os.path.exists(path):
             print("Removing existing application directory...")
             subprocess.run(["rm", "-rf", path])
             subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
+            print(
+                "The installation process of the application has been successfully executed")
         else:
             subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
+            print(
+                "The installation process of the application has been successfully executed")
         subprocess.run(["chmod", "777", "-R", path])
 
-        print("Masukkan Port yang Anda inginkan (81 - 9000): ")
-        port = input("Your Answer: ")
         configure_index_nginx(port)
 
         subprocess.run(["systemctl", "restart", "nginx"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
 
         # Check if npm is installed
-        npm_check = subprocess.run(["npm", "--version"], capture_output=True, text=True)
+        npm_check = subprocess.run(
+            ["npm", "--version"], capture_output=True, text=True)
         if npm_check.returncode != 0:
             raise Exception("npm is not installed")
 
@@ -205,6 +251,7 @@ def install_framework_static_node(repository, path):
 
     time.sleep(50)  # Add a 10-second delay for observation
 
+
 def web_framework_static_node():
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebFramework - Static - node [!]
@@ -215,13 +262,15 @@ def web_framework_static_node():
     choice4 = input("TACP >> ")
     if choice4 == "1":
         apache_installed_check()
-        install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
+        install_framework_static_node(
+            "https://github.com/OmTegar/node-website-static1.git", "/var/www/node-website-static1/")
     elif choice4 == "2":
         update_tacp()
     elif choice4 == "99":
         sys.exit()
     else:
-       web_framework_static_node()
+        web_framework_static_node()
+
 
 if __name__ == "__main__":
     try:
