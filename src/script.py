@@ -369,6 +369,12 @@ def install_framework_static_node(repository, path):
 
         subprocess.run(["systemctl", "restart", "nginx"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
+
+        # Check if npm is installed
+        npm_check = subprocess.run(["npm", "--version"], capture_output=True, text=True)
+        if npm_check.returncode != 0:
+            raise Exception("npm is not installed")
+
         subprocess.run(["npm", "install", "pm2", "-g"])
 
         subprocess.run(["git", "clone", repository, path])
@@ -385,7 +391,9 @@ def install_framework_static_node(repository, path):
         print("There was an error during the installation process of the application:")
         print(e)
         subprocess.run(["pm2", "list"])
-    
+    except Exception as e:
+        print("Error:", e)
+
     time.sleep(50)  # Add a 10-second delay for observation
 
 def web_framework_static_react():
