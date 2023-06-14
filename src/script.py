@@ -195,6 +195,7 @@ def web_static_sektema():
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
         print(e)
+    time.sleep(10)
 
 
 def web_static_tegar():
