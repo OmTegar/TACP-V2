@@ -115,10 +115,11 @@ def update_tacp():
 
 
 def nginx_installed_check():
-    nginx_installed = subprocess.run(
-        ["dpkg", "-l", "nginx"], capture_output=True, text=True).returncode == 0
+    nginx_installed = subprocess.Popen(
+        ["dpkg", "-l", "nginx"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    nginx_output, _ = nginx_installed.communicate()
 
-    if nginx_installed:
+    if "ii  nginx" in nginx_output.decode():
         print("Nginx is installed, uninstalling and removing all files...")
         subprocess.run(["systemctl", "stop", "nginx"])
         subprocess.run(["apt-get", "remove", "--purge", "nginx",
@@ -130,10 +131,11 @@ def nginx_installed_check():
     else:
         print("Nginx is not installed.")
 
-    apache_installed = subprocess.run(
-        ["which", "apache2"], capture_output=True, text=True).returncode == 0
+    apache_installed = subprocess.Popen(
+        ["which", "apache2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    apache_output, _ = apache_installed.communicate()
 
-    if not apache_installed:
+    if "apache2" not in apache_output.decode():
         print("Installing Apache2...")
         subprocess.run(["apt-get", "install", "apache2", "-y"])
         print("Apache2 has been installed.")
@@ -188,7 +190,7 @@ def web_static_sektema():
         subprocess.run(["service", "apache2", "restart"])
 
         # clearScr()
-        # print(credit + """\033[1m 
+        # print(credit + """\033[1m
         #     [!] Credit By OmTegar [!] https://omtegar.me [!]
         # """)
         # web_static()
