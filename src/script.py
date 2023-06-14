@@ -457,6 +457,7 @@ def web_framework_static():
     if choice4 == "1":
         web_framework_static_react()
         clearScr()
+        web_framework_static()
     elif choice4 == "2":
         web_framework_static_next()
     elif choice4 == "99":

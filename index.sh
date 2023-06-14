@@ -107,13 +107,13 @@ chmod +x "$INSTALL_DIR/index.sh"
 if [ -d "$INSTALL_DIR" ] ;
 then
     echo "";
-        echo "[✔] Successfully Installed !!! \n\n";
+        echo "[✔] Successfully Installed !!!";
         echo -e $GREEN "       [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]"
         echo            "       [+]                                                             [+]"
         echo -e $GREEN "       [+]     ✔✔✔ Now Just Type In Terminal (tacp) ✔✔✔             [+]"
         echo            "       [+]                                                             [+]"
         echo -e $GREEN "       [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]"
 else
-    echo "[✘] Installation Failed. Please try again. [✘]";
+    echo -e "[✘] Installation Failed. Please try again. [✘]${NC}";
     exit
 fi
