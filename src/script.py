@@ -359,16 +359,17 @@ def install_framework_static_node(repository, path):
         if os.path.exists(path):
             print("Removing existing application directory...")
             subprocess.run(["rm", "-rf", path])
+            subprocess.run(["mkdir", "-p", path])
             subprocess.run(["git", "clone", repository, path])
             print("The installation process of the application has been successfully executed")
         else:
+            subprocess.run(["mkdir", "-p", path])
             subprocess.run(["git", "clone", repository, path])
             print("The installation process of the application has been successfully executed")
         subprocess.run(["chmod", "777", "-R", path])
 
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
         port = input("Your Answer: ")
-        configure_nginx(port)
         configure_index_nginx(port)
 
         subprocess.run(["systemctl", "restart", "nginx"])
