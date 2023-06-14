@@ -356,16 +356,19 @@ def web_static():
 
 def install_framework_static_node(repository, path):
     try:
-        subprocess.run(["apt", "install", "git", "-y"])  # Install git if not already installed
-
-        os.makedirs(path, exist_ok=True)  # Create the application directory if it doesn't exist
-
-        subprocess.run(["git", "clone", repository, path])
+        if os.path.exists(path):
+            print("Removing existing application directory...")
+            subprocess.run(["rm", "-rf", path])
+            subprocess.run(["git", "clone", repository, path])
+            print("The installation process of the application has been successfully executed")
+        else:
+            subprocess.run(["git", "clone", repository, path])
+            print("The installation process of the application has been successfully executed")
         subprocess.run(["chmod", "777", "-R", path])
 
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
         port = input("Your Answer: ")
-        configure_index_nginx(port, path)
+        configure_index_nginx(port)
 
         subprocess.run(["systemctl", "restart", "nginx"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
@@ -377,17 +380,16 @@ def install_framework_static_node(repository, path):
 
         subprocess.run(["npm", "install", "pm2", "-g"])
 
-        os.chdir(path)  # Change current working directory to 'path'
-        subprocess.run(["npm", "install"])
+        subprocess.run(["git", "clone", repository, path])
+        subprocess.run(["npm", "install"], cwd=path)
         subprocess.run(["pm2", "startup"])
 
-        subprocess.run(["pm2", "delete", "0"])
-        subprocess.run(["pm2", "start", "index.js"])
+        subprocess.run(["pm2", "delete", "0"], cwd=path)
+        subprocess.run(["pm2", "start", "index.js"], cwd=path)
 
         configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
 
-        print("The installation process of the application has been successfully executed")
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
         print(e)
