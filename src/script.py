@@ -121,6 +121,40 @@ def nginx_installed_check():
     subprocess.run(["service", "apache2", "start"])
 
 
+def install_web_static(repository, path):
+    try:
+        if os.path.exists(path):
+            print("The application directory already exists.")
+        else:
+            subprocess.run(["git", "clone", repository, path])
+            print("The installation process of the application has been successfully executed")
+        subprocess.run(["chmod", "777", "-R", path])
+
+        config_text = f'''<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot {path}
+
+        ErrorLog ${{APACHE_LOG_DIR}}/error.log
+        CustomLog ${{APACHE_LOG_DIR}}/access.log combined
+        </VirtualHost>
+        '''
+
+        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
+            config_file.write(config_text)
+
+        subprocess.run(["service", "apache2", "restart"])
+
+        clearScr()
+        print(credit + """\033[1m
+             [!] Credit By OmTegar [!] https://omtegar.me [!]
+         """)
+        web_static()
+
+    except subprocess.CalledProcessError as e:
+        print("There was an error during the installation process of the application:")
+        print(e)
+
+
 def web_static():
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebServer - Static [!]
@@ -131,10 +165,10 @@ def web_static():
     choice4 = input("TACP >> ")
     if choice4 == "1":
         nginx_installed_check()
-        web_static_sektema()
+        install_web_static("https://github.com/OmTegar/company-profile-sektema.git", "/var/www/html/company-profile-sektema/")
     elif choice4 == "2":
         nginx_installed_check()
-        web_static_tegar()
+        install_web_static("https://github.com/OmTegar/my-company-profile.git", "/var/www/html/my-company-profile/")
     elif choice4 == "99":
         clearScr()
         menu()
@@ -144,78 +178,6 @@ def web_static():
     else:
         clearScr()
         menu()
-
-
-def web_static_sektema():
-    try:
-        if os.path.exists('/var/www/html/company-profile-sektema/'):
-            print("The application directory already exists.")
-        else:
-            subprocess.run(["git", "clone", "https://github.com/OmTegar/company-profile-sektema.git",
-                            "/var/www/html/company-profile-sektema/"])
-            print("The installation process of the application has been successfully executed")
-        subprocess.run(
-            ["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
-
-        config_text = '''<VirtualHost *:80>
-        ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html/company-profile-sektema/
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        </VirtualHost>
-        '''
-
-        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
-            config_file.write(config_text)
-
-        subprocess.run(["service", "apache2", "restart"])
-    
-        clearScr()
-        print(credit + """\033[1m
-             [!] Credit By OmTegar [!] https://omtegar.me [!]
-         """)
-        web_static()
-
-    except subprocess.CalledProcessError as e:
-        print("There was an error during the installation process of the application:")
-        print(e)
-
-
-def web_static_tegar():
-    try:
-        if os.path.exists('/var/www/html/my-company-profile/'):
-            print("The application directory already exists.")
-        else:
-            subprocess.run(["git", "clone", "https://github.com/OmTegar/my-company-profile.git",
-                            "/var/www/html/my-company-profile/"])
-            print("The installation process of the application has been successfully executed")
-        subprocess.run(
-            ["chmod", "777", "-R", "/var/www/html/my-company-profile/"])
-
-        config_text = '''<VirtualHost *:80>
-        ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html/my-company-profile/
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        </VirtualHost>
-        '''
-
-        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
-            config_file.write(config_text)
-
-        subprocess.run(["service", "apache2", "restart"])
-    
-        clearScr()
-        print(credit + """\033[1m
-             [!] Credit By OmTegar [!] https://omtegar.me [!]
-         """)
-        web_static()
-
-    except subprocess.CalledProcessError as e:
-        print("There was an error during the installation process of the application:")
-        print(e)
 
 
 def menu():
