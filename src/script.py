@@ -67,6 +67,15 @@ banner = GREEN + '''
            ~ Package Global Scripting Linux Version 2.1 ~ 
 '''
 
+# Set banner text
+credit = BLUE + '''  
+           [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
+            [+]                                                             [+]
+           [+]     ✔✔✔ Your application has been installed (tacp) ✔✔✔   [+]
+            [+]                                                             [+]
+           [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
+'''
+
 
 # Function to print a message in green color
 def success_message(message):
@@ -118,6 +127,9 @@ def web_static():
         menu()
     else:
         clearScr()
+        print (credit + """\033[1m 
+        [!] Coded By OmTegar [!] https://omtegar.me [!]
+        """)
         menu()
 
 def web_static_sektema():
