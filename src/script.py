@@ -187,11 +187,11 @@ def web_static_sektema():
 
         subprocess.run(["service", "apache2", "restart"])
 
-        clearScr()
-        print(credit + """\033[1m 
-            [!] Credit By OmTegar [!] https://omtegar.me [!]
-        """)
-        web_static()
+        # clearScr()
+        # print(credit + """\033[1m 
+        #     [!] Credit By OmTegar [!] https://omtegar.me [!]
+        # """)
+        # web_static()
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
         print(e)
