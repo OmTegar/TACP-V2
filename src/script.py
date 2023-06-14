@@ -31,6 +31,16 @@ RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
+
+def update_system():
+    update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
+
+    if update_status == 0:
+        print("Update sudah dijalankan sebelumnya, melanjutkan ke perintah berikutnya")
+    else:
+        update_process = subprocess.Popen(["apt-get", "update", "-y"])
+        update_process.wait()
+
 def soon():
     print('''\033[91m
 
@@ -79,16 +89,13 @@ credit = BLUE + '''
     [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
 '''
 
-
 # Function to print a message in green color
 def success_message(message):
     print(f"{GREEN}[*] {message}{RESET}")
 
-
 # Function to print a message in yellow color
 def warning_message(message):
     print(f"{YELLOW}[!] {message}{RESET}")
-
 
 # Function to print a message in red color
 def error_message(message):
@@ -510,6 +517,7 @@ def menu():
 
 if __name__ == "__main__":
     try:
+        update_system()
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
