@@ -268,9 +268,9 @@ http.createServer(function (request, response) {{
         }}
     }});
 }})
-.listen(port);
+.listen({port});
 
-console.log("Server running at http://127.0.0.1:" + port);
+console.log("Server running at http://127.0.0.1:" + {port});
 '''
     with open("/var/www/node-website-static1/index.js", "w") as index_js_file:
         index_js_file.write(index_js)
