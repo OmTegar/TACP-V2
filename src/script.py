@@ -133,14 +133,13 @@ def web_static_sektema():
         print("Nginx has been uninstalled and all files removed.")
     else:
         print("Nginx is not installed.")
-        print("Installing Apache2...")
-        subprocess.run(["apt-get", "install", "apache2", "-y"])
-        print("Apache2 has been installed.")
 
     apache_installed = subprocess.run(["which", "apache2"], capture_output=True).returncode == 0
 
     if not apache_installed:
+        print("Installing Apache2...")
         subprocess.run(["apt-get", "install", "apache2", "-y"])
+        print("Apache2 has been installed.")
 
     subprocess.run(["service", "apache2", "start"])
     subprocess.run(["clear"])
@@ -160,8 +159,14 @@ def web_static_sektema():
                 CustomLog ${APACHE_LOG_DIR}/access.log combined
         </VirtualHost>
         '''
-        clearScr()
-        web_static()
+    with open("000-default.conf", "a") as config_file:
+        config_file.write(config_text)
+
+    subprocess.run(["service", "apache2", "restart"])
+
+    clearScr()
+    web_static()
+
 
 def menu():
     print (banner + """\033[1m
