@@ -215,66 +215,6 @@ http {{
     with open("/etc/nginx/nginx.conf", "w") as nginx_conf_file:
         nginx_conf_file.write(nginx_conf)
 
-def configure_index_nginx(port):
-    index_js = f'''
-var http = require("http");
-var fs = require("fs");
-var path = require("path");
-var port = {port};
-
-http.createServer(function (request, response) {{
-    console.log("request ", request.url);
-
-    var filePath = "." + request.url;
-    if (filePath == "./") {{
-        filePath = "./app/index.html";
-    }}
-
-    var extname = String(path.extname(filePath)).toLowerCase();
-    var mimeTypes = {{
-        ".html": "text/html",
-        ".js": "text/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpg",
-        ".gif": "image/gif",
-        ".svg": "image/svg+xml",
-        ".wav": "audio/wav",
-        ".mp4": "video/mp4",
-        ".woff": "application/font-woff",
-        ".ttf": "application/font-ttf",
-        ".eot": "application/vnd.ms-fontobject",
-        ".otf": "application/font-otf",
-        ".wasm": "application/wasm",
-    }};
-
-    var contentType = mimeTypes[extname] || "application/octet-stream";
-
-    fs.readFile(filePath, function (error, content) {{
-        if (error) {{
-            if (error.code == "ENOENT") {{
-                fs.readFile("./404.html", function (error, content) {{
-                    response.writeHead(404, {{ "Content-Type": "text/html" }});
-                    response.end(content, "utf-8");
-                }});
-            }} else {{
-                response.writeHead(500);
-                response.end("Sorry, check with the site admin for error: " + error.code + " ..\n");
-            }}
-        }} else {{
-            response.writeHead(200, {{ "Content-Type": contentType }});
-            response.end(content, "utf-8");
-        }}
-    }});
-}})
-.listen({port});
-
-console.log("Server running at http://127.0.0.1:" + {port});
-'''
-    with open("/var/www/node-website-static1/index.js", "w") as index_js_file:
-        index_js_file.write(index_js)
-
 def install_web_static(repository, path):
     try:
         if os.path.exists(path):
@@ -354,38 +294,117 @@ def web_static():
         clearScr()
         menu()
 
-def install_framework_static_node(repository, path):
+def configure_nginx(port):
+    nginx_conf = f'''
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {{
+    worker_connections 768;
+    # multi_accept on;
+}}
+
+http {{
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+
+    # gzip_vary on;
+    # gzip_proxied any;
+    # gzip_comp_level 6;
+    # gzip_buffers 16 8k;
+    # gzip_http_version 1.1;
+    # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {{
+        listen     80;
+        listen     [::]:80;
+        server_name _;
+
+        location / {{
+            proxy_pass http://localhost:{port};
+        }}
+    }}
+}}
+'''
+    with open("/etc/nginx/nginx.conf", "w") as nginx_conf_file:
+        nginx_conf_file.write(nginx_conf)
+
+def install_web_framework_static_react_template(repository, path):
     try:
+        print("Masukkan Port yang Anda inginkan (81 - 9000): ")
+        port = input("Your Answer: ")
+
         if os.path.exists(path):
             print("Removing existing application directory...")
             subprocess.run(["rm", "-rf", path])
             subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
+            print(
+                "The installation process of the application has been successfully executed")
         else:
             subprocess.run(["git", "clone", repository, path])
-            print("The installation process of the application has been successfully executed")
-        subprocess.run(["chmod", "777", "-R", path])
-
-        print("Masukkan Port yang Anda inginkan (81 - 9000): ")
-        port = input("Your Answer: ")
-        configure_index_nginx(port)
-
+            print(
+                "The installation process of the application has been successfully executed")
         subprocess.run(["systemctl", "restart", "nginx"])
+        subprocess.run(["curl", "-sL", "https://deb.nodesource.com/setup_16.x", "-o", "/tmp/nodesource_setup.sh"])
+        subprocess.run(["bash", "/tmp/nodesource_setup.sh"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
 
         # Check if npm is installed
-        npm_check = subprocess.run(["npm", "--version"], capture_output=True, text=True)
+        npm_check = subprocess.run(
+            ["npm", "--version"], capture_output=True, text=True)
         if npm_check.returncode != 0:
             raise Exception("npm is not installed")
 
         subprocess.run(["npm", "install", "pm2", "-g"])
-
-        subprocess.run(["git", "clone", repository, path])
         subprocess.run(["npm", "install"], cwd=path)
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], cwd=path)
 
+        subprocess.run(["npm", "run", "build"], cwd=path)
         subprocess.run(["pm2", "delete", "0"], cwd=path)
-        subprocess.run(["pm2", "start", "index.js"], cwd=path)
+        subprocess.run(["pm2", "serve", "build", f"{port}", "--spa"], cwd=path)
         subprocess.run(["pm2", "startup"])
+        subprocess.run(["pm2", "save"])
 
         configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
@@ -397,34 +416,24 @@ def install_framework_static_node(repository, path):
     except Exception as e:
         print("Error:", e)
 
-    time.sleep(50)  # Add a 10-second delay for observation
+    time.sleep(15)  # Add a 10-second delay for observation
 
 def web_framework_static_react():
-    print("web_framework_static_react()")
-
-
-def web_framework_static_next():
-    print("web_framework_static_next()")
-
-def web_framework_static_node():
     clearScr()
     print(banner + """\033[1m
-   [!] Some Tools By OmTegar WebFramework - Static - node [!]
+   [!] Some Tools By OmTegar WebFramework - Static - React JS[!]
   \033[0m""")
-    print("   {1}--node tegar")
-    print("   {2}--node2")
+    print("   {1}--React JS - Template")
+    print("   {2}--React JS - OmTegar (SOON)")
     print("   {99}-Back To The Main Menu \n\n")
-    choice4 = input("TACP/WebFramework/Static/NodeJS/ >> ")
+    choice4 = input("TACP/WebFramework/Static/React/ >> ")
     if choice4 == "1":
         apache_installed_check()
-        install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1/")
-        # clearScr()
+        install_web_framework_static_react_template("https://github.com/OmTegar/reactjs-template-omtegar.git", "/var/www/reactjs-template-omtegar/")
+        clearScr()
     elif choice4 == "2":
         soon()
     elif choice4 == "99":
-        clearScr()
-        menu()
-    elif choice4 == "":
         clearScr()
         menu()
     else:
@@ -432,27 +441,25 @@ def web_framework_static_node():
         menu()
 
 
+def web_framework_static_next():
+    print("web_framework_static_next()")
+
+
 def web_framework_static():
     clearScr()
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebFramework - Static [!]
   \033[0m""")
-    print("   {1}--Node JS ")
-    print("   {2}--React JS (SOON)")
-    print("   {3}--Next JS (SOON)")
+    print("   {1}--React JS")
+    print("   {2}--Next JS (SOON)")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP/WebFramework/Static/ >> ")
     if choice4 == "1":
-        web_framework_static_node()
+        web_framework_static_react()
         clearScr()
     elif choice4 == "2":
-        web_framework_static_react()
-    elif choice4 == "3":
         web_framework_static_next()
     elif choice4 == "99":
-        clearScr()
-        menu()
-    elif choice4 == "":
         clearScr()
         menu()
     else:

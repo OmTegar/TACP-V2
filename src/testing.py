@@ -136,73 +136,7 @@ http {{
         nginx_conf_file.write(nginx_conf)
 
 
-def configure_index_nginx(port):
-    index_js = f'''
-var http = require("http");
-var fs = require("fs");
-var path = require("path");
-var port = {port};
-
-http
-  .createServer(function (request, response) {
-    console.log("request ", request.url);
-
-    var filePath = "." + request.url;
-    if (filePath == "./") {
-      filePath = "./app/index.html";
-    }
-
-    var extname = String(path.extname(filePath)).toLowerCase();
-    var mimeTypes = {
-      ".html": "text/html",
-      ".js": "text/javascript",
-      ".css": "text/css",
-      ".json": "application/json",
-      ".png": "image/png",
-      ".jpg": "image/jpg",
-      ".gif": "image/gif",
-      ".svg": "image/svg+xml",
-      ".wav": "audio/wav",
-      ".mp4": "video/mp4",
-      ".woff": "application/font-woff",
-      ".ttf": "application/font-ttf",
-      ".eot": "application/vnd.ms-fontobject",
-      ".otf": "application/font-otf",
-      ".wasm": "application/wasm",
-    };
-
-    var contentType = mimeTypes[extname] || "application/octet-stream";
-
-    fs.readFile(filePath, function (error, content) {
-      if (error) {
-        if (error.code == "ENOENT") {
-          fs.readFile("./404.html", function (error, content) {
-            response.writeHead(404, { "Content-Type": "text/html" });
-            response.end(content, "utf-8");
-          });
-        } else {
-          response.writeHead(500);
-          response.end(
-            "Sorry, check with the site admin for error: " +
-              error.code +
-              " ..\n"
-          );
-        }
-      } else {
-        response.writeHead(200, { "Content-Type": contentType });
-        response.end(content, "utf-8");
-      }
-    });
-  })
-  .listen({port});
-
-console.log("Server running at http://127.0.0.1:" + {port});
-'''
-    with open("/var/www/node-website-static1/index.js", "w") as index_js_file:
-        index_js_file.write(index_js)
-
-
-def install_framework_static_node(repository, path):
+def install_framework_static_react(repository, path):
     try:
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
         port = input("Your Answer: ")
@@ -217,11 +151,9 @@ def install_framework_static_node(repository, path):
             subprocess.run(["git", "clone", repository, path])
             print(
                 "The installation process of the application has been successfully executed")
-        subprocess.run(["chmod", "777", "-R", path])
-
-        configure_index_nginx(port)
-
         subprocess.run(["systemctl", "restart", "nginx"])
+        subprocess.run(["curl", "-sL", "https://deb.nodesource.com/setup_16.x", "-o", "/tmp/nodesource_setup.sh"])
+        subprocess.run(["bash", "/tmp/nodesource_setup.sh"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
 
         # Check if npm is installed
@@ -231,13 +163,14 @@ def install_framework_static_node(repository, path):
             raise Exception("npm is not installed")
 
         subprocess.run(["npm", "install", "pm2", "-g"])
-
-        subprocess.run(["git", "clone", repository, path])
         subprocess.run(["npm", "install"], cwd=path)
+        subprocess.run(["npm", "install", "--legacy-peer-deps"], cwd=path)
 
+        subprocess.run(["npm", "run", "build"], cwd=path)
         subprocess.run(["pm2", "delete", "0"], cwd=path)
-        subprocess.run(["pm2", "start", "index.js"], cwd=path)
+        subprocess.run(["pm2", "serve", "build", f"{port}", "--spa"], cwd=path)
         subprocess.run(["pm2", "startup"])
+        subprocess.run(["pm2", "save"])
 
         configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
@@ -256,14 +189,14 @@ def web_framework_static_node():
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebFramework - Static - node [!]
   \033[0m""")
-    print("   {1}--node1")
+    print("   {1}--react")
     print("   {2}--update & upgrade")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
         apache_installed_check()
-        install_framework_static_node(
-            "https://github.com/OmTegar/node-website-static1.git", "/var/www/node-website-static1/")
+        install_framework_static_react(
+            "https://github.com/OmTegar/reactjs-template-omtegar.git", "/var/www/reactjs-template-omtegar/")
     elif choice4 == "2":
         update_tacp()
     elif choice4 == "99":
