@@ -214,6 +214,7 @@ def web_framework_static_node():
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
+        apache_installed_check()
         install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
     elif choice4 == "2":
         update_tacp()
