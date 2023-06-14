@@ -510,8 +510,9 @@ def web_Framework():
         menu()
 
 def write_ftp_data(ServerName, port, new_user, password):
-    os.makedirs(f"{INSTALL_DIR}/ftp", exist_ok=True)
-    subprocess.run(["chmod", "777", INSTALL_DIR])
+    path_ftpserver = f"{INSTALL_DIR}/ftp"
+    os.makedirs(path_ftpserver, exist_ok=True)
+    subprocess.run(["chmod", "777", path_ftpserver])
 
     file_path_ftp_text = f"{INSTALL_DIR}/ftp/ftp.txt"
 
@@ -526,8 +527,9 @@ def write_ftp_data(ServerName, port, new_user, password):
         file.write(f"PASSWORD     = {password}\n")
         file.write(" \n")
 
-    subprocess.run(["cat", file_path_ftp_text])
+    subprocess.run(["type", file_path_ftp_text])
     success_message(f"Username dan Password Anda telah disimpan di {file_path_ftp_text}")
+
 
 def ftp_server():
     clearScr()
@@ -614,7 +616,7 @@ Include /etc/proftpd/conf.d/
         file.write(file_content_proftpd)
 
     new_user = ServerName
-    subprocess.run(["adduser", new_user])
+    # subprocess.run(["adduser", new_user])
     password = input("Masukkan password FTP server Anda: ")
     subprocess.run(["adduser", "--disabled-password", "--gecos", "", new_user])
     subprocess.run(["chpasswd"], input=f"{new_user}:{password}", encoding="utf-8", shell=True)
