@@ -31,7 +31,6 @@ RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
-
 def update_system():
     update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
 
