@@ -34,9 +34,7 @@ RESET = "\x1b[0m"
 def update_system():
     update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
 
-    if update_status == 0:
-        print("Update sudah dijalankan sebelumnya, melanjutkan ke perintah berikutnya")
-    else:
+    if update_status != 0:
         update_process = subprocess.Popen(["apt-get", "update", "-y"])
         update_process.wait()
 
