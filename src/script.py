@@ -67,7 +67,7 @@ banner = GREEN + '''
            ~ Package Global Scripting Linux Version 2.1 ~ 
 '''
 
-# Set banner text
+# Set credit text
 credit = BLUE + '''  
     [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
      [+]                                                             [+]
@@ -154,28 +154,36 @@ def web_static():
 
 def web_static_sektema():
     nginx_installed_check()
-    subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
-    subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
-    config_text = '''<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/company-profile-sektema/
+    try:
+        subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
+        print("The installation process of the application has been successfully executed")
+        subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-'''
+        config_text = '''<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html/company-profile-sektema/
 
-    with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
-        config_file.write(config_text)
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>
+        '''
 
-    subprocess.run(["service", "apache2", "restart"])
+        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
+            config_file.write(config_text)
 
-    clearScr()
-    print (credit + """\033[1m 
-        [!] Credit By OmTegar [!] https://omtegar.me [!]
-    """)
-    web_static()
+        subprocess.run(["service", "apache2", "restart"])
+
+        clearScr()
+        print (credit + """\033[1m 
+            [!] Credit By OmTegar [!] https://omtegar.me [!]
+        """)
+        web_static()
+    except subprocess.CalledProcessError as e:
+        print("There was an error during the installation process of the application:")
+        print(e)
+
+
 
 def web_static_tegar():
     nginx_installed_check()

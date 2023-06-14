@@ -90,6 +90,10 @@ if command -v python >/dev/null 2>&1; then
     sudo apt-get install python -y
 fi
 
+if command -v git >/dev/null 2>&1; then
+    sudo apt-get install git -y
+fi
+
 echo "[✔] Installing ...";
 echo "";
 git clone https://github.com/OmTegar/TACP-V2.git "$INSTALL_DIR";
