@@ -21,10 +21,14 @@ banner = GREEN + '''
            ~ Package Global Scripting Linux Version 2.1 ~
 '''
 
-# Set credit text
-credit = BLUE + '''
-    [+]         ✔✔✔ Your application has been installed ✔✔✔         [+]
-'''
+def update_tacp():
+    print("This Tool is Only Available for Linux and Similar Systems. ")
+    choiceupdate = input("Continue Y / N: ")
+    if choiceupdate in ['Y', 'y']:
+        os.system("git clone https://github.com/OmTegar/TACP-V2.git")
+        os.system("cd TACP-V2 && sudo bash ./src/update.sh")
+        os.system("tacp")
+
 def apache_installed_check():
     apache_installed = subprocess.Popen(
         ["which", "apache2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -206,13 +210,13 @@ def web_framework_static_node():
    [!] Some Tools By OmTegar WebFramework - Static - node [!]
   \033[0m""")
     print("   {1}--node1")
-    print("   {2}--node2")
+    print("   {2}--update & upgrade")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
         install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
     elif choice4 == "2":
-        credit()
+        update_tacp()
     elif choice4 == "99":
         sys.exit()
     else:
