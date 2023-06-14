@@ -162,8 +162,11 @@ def web_static():
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebServer - Static [!]
   \033[0m""")
-    print("   {1}--Sektema ")
-    print("   {2}--tegar")
+    print("   {1}--Company Profile Sektema ")
+    print("   {2}--Company Profile OmTegar")
+    print("   {3}--Company Profile Aisyatul")
+    print("   {4}--Bootstrap Template Studio")
+    print("   {5}--Mini Games By OmTegar ( Basics )")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP >> ")
     if choice4 == "1":
@@ -172,6 +175,15 @@ def web_static():
     elif choice4 == "2":
         nginx_installed_check()
         install_web_static("https://github.com/OmTegar/my-company-profile.git", "/var/www/html/my-company-profile/")
+    elif choice4 == "3":
+        nginx_installed_check()
+        install_web_static("https://github.com/OmTegar/company-aisyatul.git", "/var/www/html/company-aisyatul/")
+    elif choice4 == "4":
+        nginx_installed_check()
+        install_web_static("https://github.com/OmTegar/test-bootstrap-studio.git", "/var/www/html/test-bootstrap-studio/")
+    elif choice4 == "5":
+        nginx_installed_check()
+        install_web_static("https://github.com/OmTegar/mini-games-html-css-js-basic.git", "/var/www/html/mini-games-html-css-js-basic/")
     elif choice4 == "99":
         clearScr()
         menu()
