@@ -69,11 +69,11 @@ banner = GREEN + '''
 
 # Set banner text
 credit = BLUE + '''  
-           [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
-            [+]                                                             [+]
-           [+]     ✔✔✔ Your application has been installed (tacp) ✔✔✔   [+]
-            [+]                                                             [+]
-           [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
+    [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
+     [+]                                                             [+]
+    [+]     ✔✔✔ Your application has been installed (tacp) ✔✔✔   [+]
+     [+]                                                             [+]
+    [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]
 '''
 
 
@@ -175,8 +175,8 @@ def web_static_sektema():
 
     clearScr()
     print (credit + """\033[1m 
-        [!] Coded By OmTegar [!] https://omtegar.me [!]
-        """)
+            [!] Coded By OmTegar [!] https://omtegar.me [!]
+    """)
     web_static()
 
 
