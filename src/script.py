@@ -1,19 +1,4 @@
 #!/usr/bin/env python3
-#
-#
-#
-#    8888888 8888888888   .8.           ,o888888o.    8 888888888o
-#          8 8888        .888.         8888      88.  8 8888     88.
-#          8 8888       :88888.     ,8 8888        8. 8 8888      88
-#          8 8888      .  88888.    88 8888           8 8888      88
-#          8 8888     .8.  88888.   88 8888           8 8888.   ,88
-#          8 8888    .8 8.  88888.  88 8888           8 888888888P'
-#          8 8888   .8'  8.  88888. 88 8888           8 8888
-#          8 8888  .8'    8.  88888. 8 8888       .8  8 8888
-#          8 8888 .888888888.  88888.  8888     ,88'  8 8888
-#          8 8888.8'        8.  88888.   8888888P'    8 8888
-#                                       ~@~ coded by OmTegar ~@~
-
 import sys
 import argparse
 import os
@@ -30,6 +15,10 @@ GREEN = "\x1b[1;32m"
 RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
+
+# Directory Apps Path
+INSTALL_DIR="/usr/share/doc/TACP-V2"
+BIN_DIR="/usr/bin/"
 
 def update_system():
     update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
@@ -440,10 +429,8 @@ def web_framework_static_react():
         clearScr()
         menu()
 
-
 def web_framework_static_next():
     print("web_framework_static_next()")
-
 
 def web_framework_static():
     clearScr()
@@ -466,7 +453,6 @@ def web_framework_static():
     else:
         clearScr()
         menu()
-
 
 def web_Framework():
     print(banner + """\033[1m
@@ -491,6 +477,120 @@ def web_Framework():
         clearScr()
         menu()
 
+def write_ftp_data(ServerName, port, new_user, password):
+    os.makedirs(f"{INSTALL_DIR}/ftp", exist_ok=True)
+    subprocess.run(["chmod", "777", INSTALL_DIR])
+
+    file_path_ftp_text = f"{INSTALL_DIR}/ftp/ftp.txt"
+
+    with open(file_path_ftp_text, "w") as file:
+        file.write(" \n")
+        file.write("Berikut Data FTP Server Anda:\n")
+        file.write("#############################\n")
+        file.write("IP           = IP PUBLIC\n")
+        file.write(f"Server Name  = {ServerName}\n")
+        file.write(f"PORT         = {port}\n")
+        file.write(f"USERNAME     = {new_user}\n")
+        file.write(f"PASSWORD     = {password}\n")
+        file.write(" \n")
+
+    subprocess.run(["cat", file_path_ftp_text])
+    success_message(f"Username dan Password Anda telah disimpan di {file_path_ftp_text}")
+
+def ftp_server():
+    clearScr()
+    banner()
+    warning_message("Starting Configuration FTP Server")
+
+    ServerName = input("Masukkan Server Name yang Anda inginkan: ")
+    print("Input Menggunakan angka !!!!!")
+    port = input("Masukkan port FTP Server yang Anda inginkan: ")
+
+    subprocess.run(["apt-get", "install", "proftpd", "-y"])
+
+    file_proftpd = "/etc/proftpd/proftpd.conf"
+    file_content_proftpd = f"""
+Include /etc/proftpd/modules.conf
+
+UseIPv6 on
+<IfModule mod_ident.c>
+    IdentLookups off
+</IfModule>
+
+ServerName "{ServerName}"
+ServerType standalone
+DeferWelcome off
+
+DefaultServer on
+ShowSymlinks on
+
+TimeoutNoTransfer 600
+TimeoutStalled 600
+TimeoutIdle 1200
+
+DisplayLogin welcome.msg
+DisplayChdir .message true
+ListOptions "-"
+
+DenyFilter \\*.*/
+
+Port {port}
+
+MaxInstances 30
+
+User proftpd
+Group nogroup
+
+Umask 022 022
+AllowOverwrite on
+
+TransferLog /var/log/proftpd/xferlog
+SystemLog /var/log/proftpd/proftpd.log
+
+<IfModule mod_quotatab.c>
+    QuotaEngine off
+</IfModule>
+
+<IfModule mod_ratio.c>
+    Ratios off
+</IfModule>
+
+<IfModule mod_delay.c>
+    DelayEngine on
+</IfModule>
+
+<IfModule mod_ctrls.c>
+    ControlsEngine off
+    ControlsMaxClients 2
+    ControlsLog /var/log/proftpd/controls.log
+    ControlsInterval 5
+    ControlsSocket /var/run/proftpd/proftpd.sock
+</IfModule>
+
+<IfModule mod_ctrls_admin.c>
+    AdminControlsEngine off
+</IfModule>
+
+<Anonymous {INSTALL_DIR}/ftp>
+    User {ServerName}
+</Anonymous>
+
+Include /etc/proftpd/conf.d/
+    """
+
+    with open(file_proftpd, "w") as file:
+        file.write(file_content_proftpd)
+
+    new_user = ServerName
+    subprocess.run(["adduser", new_user])
+    password = input("Masukkan password FTP server Anda: ")
+    subprocess.run(["adduser", "--disabled-password", "--gecos", "", new_user])
+    subprocess.run(["chpasswd"], input=f"{new_user}:{password}", encoding="utf-8", shell=True)
+    subprocess.run(["usermod", "-aG", "sudo", new_user])
+    print(f"Pengguna {new_user} berhasil ditambahkan.")
+    subprocess.run(["systemctl", "restart", "proftpd"])
+
+    write_ftp_data(ServerName, port, new_user, password)
 
 def menu():
     print(banner + """\033[1m
@@ -498,6 +598,7 @@ def menu():
 \033[0m
    {1}--Install Web Static
    {2}--Install Web Framework
+   {3}--Config FTP Server
    {0}--Update The TACP 
    {99}-Exit
  """)
@@ -508,6 +609,9 @@ def menu():
         clearScr()
     elif choice == "2":
         web_Framework()
+        clearScr()
+    elif choice == "3":
+        ftp_server()
         clearScr()
     elif choice == "0":
         update_tacp()
@@ -526,3 +630,15 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
         time.sleep(0.25)
+
+#    8888888 8888888888   .8.           ,o888888o.    8 888888888o
+#          8 8888        .888.         8888      88.  8 8888     88.
+#          8 8888       :88888.     ,8 8888        8. 8 8888      88
+#          8 8888      .  88888.    88 8888           8 8888      88
+#          8 8888     .8.  88888.   88 8888           8 8888.   ,88
+#          8 8888    .8 8.  88888.  88 8888           8 888888888P'
+#          8 8888   .8'  8.  88888. 88 8888           8 8888
+#          8 8888  .8'    8.  88888. 8 8888       .8  8 8888
+#          8 8888 .888888888.  88888.  8888     ,88'  8 8888
+#          8 8888.8'        8.  88888.   8888888P'    8 8888
+#                                       ~@~ coded by OmTegar ~@~
