@@ -358,9 +358,7 @@ def install_framework_static_node(repository, path):
     try:
         subprocess.run(["apt", "install", "git", "-y"])  # Install git if not already installed
 
-        if os.path.exists(path):
-            print("Removing existing application directory...")
-            subprocess.run(["rm", "-rf", path])
+        os.makedirs(path, exist_ok=True)  # Create the application directory if it doesn't exist
 
         subprocess.run(["git", "clone", repository, path])
         subprocess.run(["chmod", "777", "-R", path])
