@@ -418,7 +418,7 @@ def web_framework_static_node():
     choice4 = input("TACP/WebFramework/Static/NodeJS/ >> ")
     if choice4 == "1":
         apache_installed_check()
-        install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
+        install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1/")
         # clearScr()
     elif choice4 == "2":
         soon()
