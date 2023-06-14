@@ -350,7 +350,6 @@ def web_static():
         clearScr()
         menu()
 
-
 def install_framework_static_node(repository, path):
     try:
         if os.path.exists(path):
@@ -366,6 +365,7 @@ def install_framework_static_node(repository, path):
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
         port = input("Your Answer: ")
         configure_nginx(port)
+        configure_index_nginx(port)
 
         subprocess.run(["systemctl", "restart", "nginx"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
@@ -374,8 +374,6 @@ def install_framework_static_node(repository, path):
         subprocess.run(["git", "clone", repository, path])
         subprocess.run(["npm", "install"], cwd=path)
         subprocess.run(["pm2", "startup"])
-
-        configure_index_nginx(port)
 
         subprocess.run(["pm2", "delete", "0"], cwd=path)
         subprocess.run(["pm2", "start", "index.js"], cwd=path)
@@ -387,6 +385,8 @@ def install_framework_static_node(repository, path):
         print("There was an error during the installation process of the application:")
         print(e)
         subprocess.run(["pm2", "list"])
+    
+    time.sleep(50)  # Add a 10-second delay for observation
 
 def web_framework_static_react():
     print("web_framework_static_react()")
@@ -396,6 +396,7 @@ def web_framework_static_next():
     print("web_framework_static_next()")
 
 def web_framework_static_node():
+    clearScr()
     print(banner + """\033[1m
    [!] Some Tools By OmTegar WebFramework - Static - node [!]
   \033[0m""")
@@ -406,7 +407,7 @@ def web_framework_static_node():
     if choice4 == "1":
         apache_installed_check()
         install_framework_static_node("https://github.com/OmTegar/node-website-static1.git" , "/var/www/node-website-static1")
-        clearScr()
+        # clearScr()
     elif choice4 == "2":
         soon()
     elif choice4 == "99":
