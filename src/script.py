@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 #
-#  
-#  
-#    8888888 8888888888   .8.           ,o888888o.    8 888888888o   
-#          8 8888        .888.         8888      88.  8 8888     88. 
-#          8 8888       :88888.     ,8 8888        8. 8 8888      88 
-#          8 8888      .  88888.    88 8888           8 8888      88 
-#          8 8888     .8.  88888.   88 8888           8 8888.   ,88  
-#          8 8888    .8 8.  88888.  88 8888           8 888888888P'  
-#          8 8888   .8'  8.  88888. 88 8888           8 8888         
-#          8 8888  .8'    8.  88888. 8 8888       .8  8 8888         
-#          8 8888 .888888888.  88888.  8888     ,88'  8 8888         
-#          8 8888.8'        8.  88888.   8888888P'    8 8888 
+#
+#
+#    8888888 8888888888   .8.           ,o888888o.    8 888888888o
+#          8 8888        .888.         8888      88.  8 8888     88.
+#          8 8888       :88888.     ,8 8888        8. 8 8888      88
+#          8 8888      .  88888.    88 8888           8 8888      88
+#          8 8888     .8.  88888.   88 8888           8 8888.   ,88
+#          8 8888    .8 8.  88888.  88 8888           8 888888888P'
+#          8 8888   .8'  8.  88888. 88 8888           8 8888
+#          8 8888  .8'    8.  88888. 8 8888       .8  8 8888
+#          8 8888 .888888888.  88888.  8888     ,88'  8 8888
+#          8 8888.8'        8.  88888.   8888888P'    8 8888
 #                                       ~@~ coded by OmTegar ~@~
 
 import sys
@@ -31,7 +31,7 @@ import glob
 import random
 # import Queue
 import threading
-#import requests
+# import requests
 import base64
 from getpass import getpass
 # from commands import *
@@ -82,12 +82,17 @@ def success_message(message):
     print(f"{GREEN}[*] {message}{RESET}")
 
 # Function to print a message in yellow color
+
+
 def warning_message(message):
     print(f"{YELLOW}[!] {message}{RESET}")
 
 # Function to print a message in red color
+
+
 def error_message(message):
     print(f"{RED}[X] {message}{RESET}")
+
 
 def clearScr():
     """
@@ -99,21 +104,25 @@ def clearScr():
     elif sys.platform.startswith('win'):
         os.system('cls')
 
+
 def update_tacp():
     print("This Tool is Only Available for Linux and Similar Systems. ")
     choiceupdate = input("Continue Y / N: ")
     if choiceupdate in ['Y', 'y']:
-        os.system("git clone https://github.com/OmTegar/TACP-V2.git")  
+        os.system("git clone https://github.com/OmTegar/TACP-V2.git")
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
         os.system("tacp")
 
+
 def nginx_installed_check():
-    nginx_installed = subprocess.run(["dpkg", "-l", "nginx"], capture_output=True, text=True).returncode == 0
+    nginx_installed = subprocess.run(
+        ["dpkg", "-l", "nginx"], capture_output=True, text=True).returncode == 0
 
     if nginx_installed:
         print("Nginx is installed, uninstalling and removing all files...")
         subprocess.run(["systemctl", "stop", "nginx"])
-        subprocess.run(["apt-get", "remove", "--purge", "nginx", "nginx-common", "nginx-full", "-y"])
+        subprocess.run(["apt-get", "remove", "--purge", "nginx",
+                       "nginx-common", "nginx-full", "-y"])
         subprocess.run(["apt-get", "autoremove", "-y"])
         subprocess.run(["rm", "-rf", "/etc/nginx"])
         subprocess.run(["rm", "-rf", "/var/log/nginx"])
@@ -121,17 +130,19 @@ def nginx_installed_check():
     else:
         print("Nginx is not installed.")
 
-    apache_installed = subprocess.run(["which", "apache2"], capture_output=True, text=True).returncode == 0
+    apache_installed = subprocess.run(
+        ["which", "apache2"], capture_output=True, text=True).returncode == 0
 
     if not apache_installed:
         print("Installing Apache2...")
         subprocess.run(["apt-get", "install", "apache2", "-y"])
         print("Apache2 has been installed.")
-    
+
     subprocess.run(["service", "apache2", "start"])
 
+
 def web_static():
-    print (banner + """\033[1m
+    print(banner + """\033[1m
    [!] Some Tools By OmTegar WebServer - Static [!]
   \033[0m""")
     print("   {1}--Sektema ")
@@ -153,11 +164,14 @@ def web_static():
         clearScr()
         menu()
 
+
 def web_static_sektema():
     try:
-        subprocess.run(["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
+        subprocess.run(
+            ["git", "clone", "https://github.com/OmTegar/TACP-V2.git", "/var/www/html/"])
         print("The installation process of the application has been successfully executed")
-        subprocess.run(["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
+        subprocess.run(
+            ["chmod", "777", "-R", "/var/www/html/company-profile-sektema/"])
 
         config_text = '''<VirtualHost *:80>
         ServerAdmin webmaster@localhost
@@ -174,7 +188,7 @@ def web_static_sektema():
         subprocess.run(["service", "apache2", "restart"])
 
         clearScr()
-        print (credit + """\033[1m 
+        print(credit + """\033[1m 
             [!] Credit By OmTegar [!] https://omtegar.me [!]
         """)
         web_static()
@@ -183,10 +197,10 @@ def web_static_sektema():
         print(e)
 
 
-
 def web_static_tegar():
     nginx_installed_check()
-    subprocess.run(["git", "clone", "https://github.com/OmTegar/my-company-profile.git", "/var/www/html/"])
+    subprocess.run(
+        ["git", "clone", "https://github.com/OmTegar/my-company-profile.git", "/var/www/html/"])
     subprocess.run(["chmod", "777", "-R", "/var/www/html/my-company-profile/"])
 
     config_text = '''<VirtualHost *:80>
@@ -204,14 +218,14 @@ def web_static_tegar():
     subprocess.run(["service", "apache2", "restart"])
 
     clearScr()
-    print (credit + """\033[1m 
+    print(credit + """\033[1m 
         [!] Credit By OmTegar [!] https://omtegar.me [!]
     """)
     web_static()
 
 
 def menu():
-    print (banner + """\033[1m
+    print(banner + """\033[1m
    [!] Coded By OmTegar [!] https://omtegar.me [!]
 \033[0m
    {1}--Install Web Static
@@ -239,4 +253,4 @@ if __name__ == "__main__":
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
-        time.sleep(0.25)     
+        time.sleep(0.25)
