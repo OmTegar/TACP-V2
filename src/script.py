@@ -367,7 +367,7 @@ def install_framework_static_node(repository, path):
 
         print("Masukkan Port yang Anda inginkan (81 - 9000): ")
         port = input("Your Answer: ")
-        configure_index_nginx(port)
+        configure_index_nginx(port, path)
 
         subprocess.run(["systemctl", "restart", "nginx"])
         subprocess.run(["apt", "install", "nodejs", "npm", "-y"])
@@ -382,7 +382,7 @@ def install_framework_static_node(repository, path):
         subprocess.run(["npm", "install"], cwd=path)
         subprocess.run(["pm2", "startup"])
 
-        subprocess.run(["pm2", "delete", "0"], cwd=path)
+        subprocess.run(["pm2", "delete", "0"])
         subprocess.run(["pm2", "start", "index.js"], cwd=path)
 
         configure_nginx(port)
