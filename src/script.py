@@ -7,7 +7,42 @@ import subprocess
 import socket
 
 ##########################
+def menu():
+    print ("""
+MIT License
+
+Copyright (c) 2023 OmTegar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.""")
+
 os.system('clear')
+directories = ['/uploads/', '/upload/', '/files/', '/resume/', '/resumes/', '/documents/', '/docs/', '/pictures/', '/file/', '/Upload/', '/Uploads/', '/Resume/', '/Resume/', '/UsersFiles/', '/Usersiles/', '/usersFiles/', '/Users_Files/', '/UploadedFiles/',
+               '/Uploaded_Files/', '/uploadedfiles/', '/uploadedFiles/', '/hpage/', '/admin/upload/', '/admin/uploads/', '/admin/resume/', '/admin/resumes/', '/admin/pictures/', '/pics/', '/photos/', '/Alumni_Photos/', '/alumni_photos/', '/AlumniPhotos/', '/users/']
+shells = ['wso.php', 'shell.php', 'an.php', 'hacker.php', 'lol.php', 'up.php', 'cp.php', 'upload.php',
+          'sh.php', 'pk.php', 'mad.php', 'x00x.php', 'worm.php', '1337worm.php', 'config.php', 'x.php', 'haha.php']
+upload = []
+yes = set(['yes', 'y', 'ye', 'Y'])
+no = set(['no', 'n'])
+
+# Directory Apps Path
+INSTALL_DIR="/usr/share/doc/TACP-V2"
+BIN_DIR="/usr/bin/"
 
 # Set color variables
 BLUE = "\x1b[1;34m"
@@ -16,9 +51,6 @@ RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
-# Directory Apps Path
-INSTALL_DIR="/usr/share/doc/TACP-V2"
-BIN_DIR="/usr/bin/"
 
 def update_system():
     update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
