@@ -31,20 +31,19 @@ RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
-
 def soon():
     print('''\033[91m
-                      
-    .dP"Y8  dP"Yb   dP"Yb  88b 88 
-    `Ybo." dP   Yb dP   Yb 88Yb88 
-    o.`Y8b Yb   dP Yb   dP 88 Y88 
-    8bodP'  YbodP   YbodP  88  Y8 
- 
+
+    .dP"Y8  dP"Yb   dP"Yb  88b 88
+    `Ybo." dP   Yb dP   Yb 88Yb88
+    o.`Y8b Yb   dP Yb   dP 88 Y88
+    8bodP'  YbodP   YbodP  88  Y8
+
     [!] I WILL ADD THIS TOOLS IN NEXT UPDATE [!]
-         
+
  \033[0m''')
     print("  {99}-Back To Main Menu \n\n")
-    choice2 = raw_input("RAT >> ")
+    choice2 = input("RAT >> ")
 
     if choice2 == "99":
         clearScr()
@@ -54,7 +53,6 @@ def soon():
         menu()
     else:
         clearScr()
-
 
 # Set banner text
 banner = GREEN + '''
@@ -96,7 +94,6 @@ def warning_message(message):
 def error_message(message):
     print(f"{RED}[X] {message}{RESET}")
 
-
 def clearScr():
     """
     clear the screen in case of GNU/Linux or
@@ -107,7 +104,6 @@ def clearScr():
     elif sys.platform.startswith('win'):
         os.system('cls')
 
-
 def update_tacp():
     print("This Tool is Only Available for Linux and Similar Systems. ")
     choiceupdate = input("Continue Y / N: ")
@@ -115,7 +111,6 @@ def update_tacp():
         os.system("git clone https://github.com/OmTegar/TACP-V2.git")
         os.system("cd TACP-V2 && sudo bash ./src/update.sh")
         os.system("tacp")
-
 
 def nginx_installed_check():
     nginx_installed = subprocess.Popen(
@@ -144,7 +139,6 @@ def nginx_installed_check():
         print("Apache2 has been installed.")
 
     subprocess.run(["service", "apache2", "start"])
-
 
 def apache_installed_check():
     apache_installed = subprocess.Popen(

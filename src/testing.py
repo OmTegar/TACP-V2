@@ -32,30 +32,6 @@ YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
 
-def soon():
-    print('''\033[91m
-
-    .dP"Y8  dP"Yb   dP"Yb  88b 88
-    `Ybo." dP   Yb dP   Yb 88Yb88
-    o.`Y8b Yb   dP Yb   dP 88 Y88
-    8bodP'  YbodP   YbodP  88  Y8
-
-    [!] I WILL ADD THIS TOOLS IN NEXT UPDATE [!]
-
- \033[0m''')
-    print("  {99}-Back To Main Menu \n\n")
-    choice2 = raw_input("RAT >> ")
-
-    if choice2 == "99":
-        clearScr()
-        menu()
-    elif choice2 == "":
-        clearScr()
-        menu()
-    else:
-        clearScr()
-
-
 # Set banner text
 banner = GREEN + '''
     8888888 8888888888   .8.           ,o888888o.    8 888888888o
