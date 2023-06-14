@@ -117,6 +117,9 @@ def web_static():
     choice4 = input("TACP >> ")
     if choice4 == "1":
         web_static_sektema()
+        print (credit + """\033[1m 
+            [!] Coded By OmTegar [!] https://omtegar.me [!]
+        """)
     if choice4 == "2":
         os.system("python3 WebStatic/tegar/tegar.py")
     elif choice4 == "99":
@@ -174,9 +177,6 @@ def web_static_sektema():
     subprocess.run(["service", "apache2", "restart"])
 
     clearScr()
-    print (credit + """\033[1m 
-            [!] Coded By OmTegar [!] https://omtegar.me [!]
-    """)
     web_static()
 
 
