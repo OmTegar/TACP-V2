@@ -127,9 +127,6 @@ def web_static():
         menu()
     else:
         clearScr()
-        print (credit + """\033[1m 
-        [!] Coded By OmTegar [!] https://omtegar.me [!]
-        """)
         menu()
 
 def web_static_sektema():
@@ -177,6 +174,9 @@ def web_static_sektema():
     subprocess.run(["service", "apache2", "restart"])
 
     clearScr()
+    print (credit + """\033[1m 
+        [!] Coded By OmTegar [!] https://omtegar.me [!]
+        """)
     web_static()
 
 
