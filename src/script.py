@@ -544,7 +544,7 @@ def ftp_server():
         clearScr()
         print(banner)
         ftpserverdata = f"{INSTALL_DIR}/ftp/ftp.txt"
-        subprocess.run(["cat", ftpserverdata])
+        subprocess.run(["cat", ftpserverdata], stderr=subprocess.DEVNULL)
         print("""\033[1m
              [>] Press ENTER to Close Data.
          """)
