@@ -31,7 +31,7 @@ rm -rf /usr/share/doc/TACP-V2
 
 # Mengunduh versi terbaru dari repositori GitHub
 echo "[*] Downloading latest version..."
-git clone https://github.com/OmTegar/TACP-V2.git /usr/share/doc/TACP-V2
+git clone --single-branch --branch DEVELOPMENT https://github.com/OmTegar/TACP-V2.git /usr/share/doc/TACP-V2
 
 # Mengupdate file eksekusi tacp
 echo "[*] Updating tacp executable..."
