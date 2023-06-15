@@ -534,7 +534,7 @@ def write_ftp_data(ServerName, port, new_user, password):
 
 def ftp_server():
     print(banner + """\033[1m
-   [!] Some Tools By OmTegar WebServer - Static [!]
+   [!] Some Tools By OmTegar FTP Server [!]
   \033[0m""")
     print("   {1}--Your Data FTP Server")
     print("   {2}--Start Configure FTP Server")
@@ -555,6 +555,7 @@ def ftp_server():
         clearScr()
         print(banner)
         ftp_server_configure()
+        clearScr()
         ftp_server()
     elif choiceftp == "99":
         clearScr()
