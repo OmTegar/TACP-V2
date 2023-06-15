@@ -548,7 +548,8 @@ def ftp_server():
         print("""\033[1m
              [>] Press ENTER to Close Data.
          """)
-        input("FTP >> ")
+        input()
+        clearScr()
         ftp_server()
     elif choiceftp == "2":
         clearScr()
