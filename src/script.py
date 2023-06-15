@@ -532,10 +532,40 @@ def write_ftp_data(ServerName, port, new_user, password):
     subprocess.run(["cat", file_path_ftp_text])
     success_message(f"Username dan Password Anda telah disimpan di {file_path_ftp_text}")
 
-
 def ftp_server():
-    clearScr()
-    print(banner)
+    print(banner + """\033[1m
+   [!] Some Tools By OmTegar WebServer - Static [!]
+  \033[0m""")
+    print("   {1}--Your Data FTP Server")
+    print("   {2}--Start Configure FTP Server")
+    print("   {99}-Back To The Main Menu \n\n")
+    choiceftp = input("FTP >> ")
+    if choiceftp == "1":
+        clearScr()
+        print(banner)
+        ftpserverdata = f"{INSTALL_DIR}/ftp/ftp.txt"
+        subprocess.run(["cat", ftpserverdata])
+        print("""\033[1m
+             [>] Press ENTER to Close Data.
+         """)
+        input("FTP >> ")
+        ftp_server()
+    elif choiceftp == "2":
+        clearScr()
+        print(banner)
+        ftp_server_configure()
+        ftp_server()
+    elif choiceftp == "99":
+        clearScr()
+        menu()
+    elif choiceftp == "":
+        clearScr()
+        menu()
+    else:
+        clearScr()
+        menu()
+
+def ftp_server_configure():
     warning_message("Starting Configuration FTP Server")
 
     ServerName = input("Masukkan Server Name yang Anda inginkan: ")

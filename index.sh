@@ -28,7 +28,7 @@ do
 cat <<EOF
 XXX
 $counter
-Loading TACP-V2 INSTALLER ....( $counter%):
+Loading TACP-V2 INSTALLER DEV-MODE ....( $counter%):
 XXX
 EOF
 
