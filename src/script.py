@@ -511,10 +511,12 @@ def web_Framework():
 
 def write_ftp_data(ServerName, port, new_user, password):
     path_ftpserver = f"{INSTALL_DIR}/ftp"
-    os.makedirs(path_ftpserver, exist_ok=True)
+    if not os.path.exists(path_ftpserver):
+        subprocess.run(["mkdir", "-p", path_ftpserver])
+
     subprocess.run(["chmod", "777", path_ftpserver])
 
-    file_path_ftp_text = f"{INSTALL_DIR}/ftp/ftp.txt"
+    file_path_ftp_text = f"{INSTALL_DIR}/ftp/info.txt"
 
     with open(file_path_ftp_text, "w") as file:
         file.write(" \n")
@@ -527,13 +529,46 @@ def write_ftp_data(ServerName, port, new_user, password):
         file.write(f"PASSWORD     = {password}\n")
         file.write(" \n")
 
-    subprocess.run(["type", file_path_ftp_text])
+    subprocess.run(["cat", file_path_ftp_text])
     success_message(f"Username dan Password Anda telah disimpan di {file_path_ftp_text}")
 
-
 def ftp_server():
-    clearScr()
-    print(banner)
+    print(banner + """\033[1m
+   [!] Some Tools By OmTegar FTP Server [!]
+  \033[0m""")
+    print("   {1}--INFO FTP Server")
+    print("   {2}--Start Configure FTP Server")
+    print("   {99}-Back To The Main Menu \n\n")
+    choiceftp = input("FTP >> ")
+    if choiceftp == "1":
+        clearScr()
+        print(banner)
+        ftpserverdata = f"{INSTALL_DIR}/ftp/info.txt"
+        subprocess.run(["cat", ftpserverdata], stderr=subprocess.DEVNULL)
+        print(f"Path Location File Or Directory FTP Server in {INSTALL_DIR}/ftp/")
+        print("""\033[1m
+             [>] Press ENTER to Close Data.
+         """)
+        input()
+        clearScr()
+        ftp_server()
+    elif choiceftp == "2":
+        clearScr()
+        print(banner)
+        ftp_server_configure()
+        clearScr()
+        ftp_server()
+    elif choiceftp == "99":
+        clearScr()
+        menu()
+    elif choiceftp == "":
+        clearScr()
+        menu()
+    else:
+        clearScr()
+        menu()
+
+def ftp_server_configure():
     warning_message("Starting Configuration FTP Server")
 
     ServerName = input("Masukkan Server Name yang Anda inginkan: ")
