@@ -36,7 +36,7 @@ git clone https://github.com/OmTegar/TACP-V2.git /usr/share/doc/TACP-V2
 # Mengupdate file eksekusi tacp
 echo "[*] Updating tacp executable..."
 if [ -e "/usr/bin/tacp" ]; then
-    echo -e "#!/bin/bash\npython3 /usr/share/doc/TACP-V2/src/script.py" '${1+"$@"}' > /usr/bin/tacp
+    echo -e "python3 /usr/share/doc/TACP-V2/src/script.py" '${1+"$@"}' > /usr/bin/tacp
     chmod +x /usr/bin/tacp
     chmod +x /usr/share/doc/TACP-V2
     chmod +x /usr/share/doc/TACP-V2/index.sh
