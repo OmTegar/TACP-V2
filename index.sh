@@ -111,7 +111,7 @@ then
         echo "[✔] Successfully Installed !!!";
         echo -e $GREEN "       [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]"
         echo            "       [+]                                                             [+]"
-        echo -e $GREEN "       [+]     ✔✔✔ Now Just Type In Terminal (tacp) ✔✔✔             [+]"
+        echo -e $GREEN "       [+]        ✔✔✔ Now Just Type In Terminal (tacp) ✔✔✔          [+]"
         echo            "       [+]                                                             [+]"
         echo -e $GREEN "       [+]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[+]"
 else

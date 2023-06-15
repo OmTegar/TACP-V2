@@ -511,7 +511,9 @@ def web_Framework():
 
 def write_ftp_data(ServerName, port, new_user, password):
     path_ftpserver = f"{INSTALL_DIR}/ftp"
-    os.makedirs(path_ftpserver, exist_ok=True)
+    if not os.path.exists(path_ftpserver):
+        subprocess.run(["mkdir", "-p", path_ftpserver])
+
     subprocess.run(["chmod", "777", path_ftpserver])
 
     file_path_ftp_text = f"{INSTALL_DIR}/ftp/ftp.txt"
@@ -527,7 +529,7 @@ def write_ftp_data(ServerName, port, new_user, password):
         file.write(f"PASSWORD     = {password}\n")
         file.write(" \n")
 
-    subprocess.run(["type", file_path_ftp_text])
+    subprocess.run(["cat", file_path_ftp_text])
     success_message(f"Username dan Password Anda telah disimpan di {file_path_ftp_text}")
 
 
