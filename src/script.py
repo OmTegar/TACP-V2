@@ -647,7 +647,8 @@ def menu():
         web_Framework()
         clearScr()
     elif choice == "3":
-        ftp_server()
+        soon()
+        # ftp_server()
         clearScr()
         menu()
     elif choice == "0":
