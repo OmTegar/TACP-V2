@@ -537,7 +537,7 @@ def ftp_server():
    [!] Some Tools By OmTegar FTP Server [!]
   \033[0m""")
     print("   {1}--INFO FTP Server")
-    print("   {3}--Start Configure FTP Server")
+    print("   {2}--Start Configure FTP Server")
     print("   {99}-Back To The Main Menu \n\n")
     choiceftp = input("FTP >> ")
     if choiceftp == "1":
@@ -682,7 +682,6 @@ def menu():
         web_Framework()
         clearScr()
     elif choice == "3":
-        # soon()
         ftp_server()
         clearScr()
         menu()
