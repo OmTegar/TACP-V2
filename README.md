@@ -13,7 +13,6 @@ TACP-V2 is a Python-based tool designed to assist in system administration and s
 - Static web server management
 - Web framework installation and setup
 - FTP server configuration
-- TACP system update
 - Exit option
 
 ## Requirements
