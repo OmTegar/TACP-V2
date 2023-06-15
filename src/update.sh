@@ -12,7 +12,7 @@ do
 cat <<EOF
 XXX
 $counter
-Loading TACP-V2 INSTALLER UPDATE( $counter%):
+Loading TACP-V2 UPDATE( $counter%):
 XXX
 EOF
 
