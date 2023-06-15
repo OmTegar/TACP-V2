@@ -516,7 +516,7 @@ def write_ftp_data(ServerName, port, new_user, password):
 
     subprocess.run(["chmod", "777", path_ftpserver])
 
-    file_path_ftp_text = f"{INSTALL_DIR}/ftp/ftp.txt"
+    file_path_ftp_text = f"{INSTALL_DIR}/ftp/info.txt"
 
     with open(file_path_ftp_text, "w") as file:
         file.write(" \n")
@@ -536,15 +536,16 @@ def ftp_server():
     print(banner + """\033[1m
    [!] Some Tools By OmTegar FTP Server [!]
   \033[0m""")
-    print("   {1}--Your Data FTP Server")
-    print("   {2}--Start Configure FTP Server")
+    print("   {1}--INFO FTP Server")
+    print("   {3}--Start Configure FTP Server")
     print("   {99}-Back To The Main Menu \n\n")
     choiceftp = input("FTP >> ")
     if choiceftp == "1":
         clearScr()
         print(banner)
-        ftpserverdata = f"{INSTALL_DIR}/ftp/ftp.txt"
+        ftpserverdata = f"{INSTALL_DIR}/ftp/info.txt"
         subprocess.run(["cat", ftpserverdata], stderr=subprocess.DEVNULL)
+        print(f"Path Location File Or Directory FTP Server in {INSTALL_DIR}/ftp/")
         print("""\033[1m
              [>] Press ENTER to Close Data.
          """)
