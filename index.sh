@@ -28,7 +28,7 @@ do
 cat <<EOF
 XXX
 $counter
-Loading TACP-V2 INSTALLER ....( $counter%):
+Loading TACP-V2 INSTALLER DEV-MODE ....( $counter%):
 XXX
 EOF
 
@@ -97,7 +97,7 @@ fi
 
 echo "[✔] Installing ...";
 echo "";
-git clone https://github.com/OmTegar/TACP-V2.git "$INSTALL_DIR";
+git clone --single-branch --branch DEVELOPMENT https://github.com/OmTegar/TACP-V2.git "$INSTALL_DIR";
 echo "#!/bin/bash
 python3 $INSTALL_DIR/src/script.py" '${1+"$@"}' > /usr/bin/tacp;
 chmod +x /usr/bin/tacp;
