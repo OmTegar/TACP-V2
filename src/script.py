@@ -297,7 +297,6 @@ def web_static():
     print("   {3}--Company Profile Aisyatul")
     print("   {4}--Bootstrap Template Studio")
     print("   {5}--Mini Games By OmTegar ( Basics )")
-    print("   {6}--Terminal Linux In Web")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP/WebStatic/ >> ")
     if choice4 == "1":
@@ -320,10 +319,6 @@ def web_static():
         nginx_installed_check()
         install_web_static("https://github.com/OmTegar/mini-games-html-css-js-basic.git",
                            "/var/www/html/mini-games-html-css-js-basic/")
-    elif choice4 == "6":
-        nginx_installed_check()
-        install_web_static("https://github.com/kristianbc/Terminal.git",
-                           "/var/www/html/Terminal/")
     elif choice4 == "99":
         clearScr()
         menu()
