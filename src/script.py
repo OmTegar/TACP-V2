@@ -5,6 +5,7 @@ import os
 import time
 import subprocess
 import socket
+import re
 
 ##########################
 def menu():
@@ -58,6 +59,19 @@ def update_system():
     if update_status != 0:
         update_process = subprocess.Popen(["apt-get", "update", "-y"])
         update_process.wait()
+
+def check_ubuntu_version():
+    try:
+        with open('/etc/issue', 'r') as file:
+            content = file.read()
+            match = re.search(r'Ubuntu (\d+\.\d+)', content)
+            if match:
+                version = match.group(1)
+                print(f"Ini adalah versi Ubuntu {version}.")
+            else:
+                print("Ini bukan sistem Ubuntu.")
+    except:
+        print("Gagal menentukan versi Ubuntu.")
 
 def soon():
     print('''\033[91m
@@ -283,6 +297,7 @@ def web_static():
     print("   {3}--Company Profile Aisyatul")
     print("   {4}--Bootstrap Template Studio")
     print("   {5}--Mini Games By OmTegar ( Basics )")
+    print("   {6}--Terminal Linux In Web")
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP/WebStatic/ >> ")
     if choice4 == "1":
@@ -305,6 +320,10 @@ def web_static():
         nginx_installed_check()
         install_web_static("https://github.com/OmTegar/mini-games-html-css-js-basic.git",
                            "/var/www/html/mini-games-html-css-js-basic/")
+    elif choice4 == "6":
+        nginx_installed_check()
+        install_web_static("https://github.com/kristianbc/Terminal.git",
+                           "/var/www/html/Terminal/")
     elif choice4 == "99":
         clearScr()
         menu()
