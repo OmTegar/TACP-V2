@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#    TACP Version 2.1    #
+
+##########################
+
+#        Import Module          #
 import sys
 import argparse
 import os
@@ -7,7 +13,12 @@ import subprocess
 import socket
 import re
 
+#     Import Custom Module      #
+
+from Module import update_system
+
 ##########################
+
 def menu():
     print ("""
 MIT License
@@ -52,13 +63,6 @@ RED = "\x1b[1;31m"
 YELLOW = "\x1b[1;33m"
 RESET = "\x1b[0m"
 
-
-def update_system():
-    update_status = subprocess.run(["apt-get", "update", "-y"], capture_output=True, text=True).returncode
-
-    if update_status != 0:
-        update_process = subprocess.Popen(["apt-get", "update", "-y"])
-        update_process.wait()
 
 def check_ubuntu_version():
     try:
@@ -711,7 +715,7 @@ def menu():
 
 if __name__ == "__main__":
     try:
-        update_system()
+        update_system.update_system()
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
