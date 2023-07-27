@@ -15,8 +15,13 @@ import re
 
 #     Import Custom Module      #
 
-from Module import update_system
-from Module import update_tacp
+from Modules import update_system
+from Modules import update_tacp
+
+#     Import Custom Service     #
+
+from Services import nginx_installed_check
+from Services import install_web_static
 
 ##########################
 
@@ -148,34 +153,6 @@ def clearScr():
     elif sys.platform.startswith('win'):
         os.system('cls')
 
-def nginx_installed_check():
-    nginx_installed = subprocess.Popen(
-        ["dpkg", "-l", "nginx"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    nginx_output, _ = nginx_installed.communicate()
-
-    if "ii  nginx" in nginx_output.decode():
-        print("Nginx is installed, uninstalling and removing all files...")
-        subprocess.run(["systemctl", "stop", "nginx"])
-        subprocess.run(["apt-get", "remove", "--purge", "nginx",
-                        "nginx-common", "nginx-full", "-y"])
-        subprocess.run(["apt-get", "autoremove", "-y"])
-        subprocess.run(["rm", "-rf", "/etc/nginx"])
-        subprocess.run(["rm", "-rf", "/var/log/nginx"])
-        print("Nginx has been uninstalled and all files removed.")
-    else:
-        print("Nginx is not installed.")
-
-    apache_installed = subprocess.Popen(
-        ["which", "apache2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    apache_output, _ = apache_installed.communicate()
-
-    if "apache2" not in apache_output.decode():
-        print("Installing Apache2...")
-        subprocess.run(["apt", "install", "apache2", "-y"])
-        print("Apache2 has been installed.")
-
-    subprocess.run(["service", "apache2", "start"])
-
 def apache_installed_check():
     apache_installed = subprocess.Popen(
         ["which", "apache2"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -246,44 +223,6 @@ http {{
 '''
     with open("/etc/nginx/nginx.conf", "w") as nginx_conf_file:
         nginx_conf_file.write(nginx_conf)
-
-def install_web_static(repository, path):
-    try:
-        if os.path.exists(path):
-            print("Removing existing application directory...")
-            subprocess.run(["rm", "-rf", path])
-            subprocess.run(["git", "clone", repository, path])
-            print(
-                "The installation process of the application has been successfully executed")
-        else:
-            subprocess.run(["git", "clone", repository, path])
-            print(
-                "The installation process of the application has been successfully executed")
-        subprocess.run(["chmod", "777", "-R", path])
-
-        config_text = f'''<VirtualHost *:80>
-        ServerAdmin webmaster@localhost
-        DocumentRoot {path}
-
-        ErrorLog ${{APACHE_LOG_DIR}}/error.log
-        CustomLog ${{APACHE_LOG_DIR}}/access.log combined
-        </VirtualHost>
-        '''
-
-        with open("/etc/apache2/sites-available/000-default.conf", "w") as config_file:
-            config_file.write(config_text)
-
-        subprocess.run(["service", "apache2", "restart"])
-
-        clearScr()
-        print(credit + """\033[1m
-             [!] Credit By OmTegar [!] https://omtegar.me [!]
-         """)
-        web_static()
-
-    except subprocess.CalledProcessError as e:
-        print("There was an error during the installation process of the application:")
-        print(e)
 
 def web_static():
     print(banner + """\033[1m
@@ -697,7 +636,7 @@ def menu():
         clearScr()
         menu()
     elif choice == "0":
-        update_tacp.update_tacp()
+        update_tacp()
     elif choice == "99":
         clearScr(), sys.exit()
     elif choice == "":
@@ -708,7 +647,7 @@ def menu():
 
 if __name__ == "__main__":
     try:
-        update_system.update_system()
+        update_system()
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
