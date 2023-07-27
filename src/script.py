@@ -16,6 +16,7 @@ import re
 #     Import Custom Module      #
 
 from Module import update_system
+from Module import update_tacp
 
 ##########################
 
@@ -146,14 +147,6 @@ def clearScr():
         os.system('clear')
     elif sys.platform.startswith('win'):
         os.system('cls')
-
-def update_tacp():
-    print("This Tool is Only Available for Linux and Similar Systems. ")
-    choiceupdate = input("Continue Y / N: ")
-    if choiceupdate in ['Y', 'y']:
-        os.system("git clone --single-branch --branch DEVELOPMENT https://github.com/OmTegar/TACP-V2.git")
-        os.system("cd TACP-V2 && sudo bash ./src/update.sh")
-        os.system("tacp")
 
 def nginx_installed_check():
     nginx_installed = subprocess.Popen(
@@ -704,7 +697,7 @@ def menu():
         clearScr()
         menu()
     elif choice == "0":
-        update_tacp()
+        update_tacp.update_tacp()
     elif choice == "99":
         clearScr(), sys.exit()
     elif choice == "":
