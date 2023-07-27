@@ -1,5 +1,4 @@
 import subprocess
-import os
 
 def nginx_installed_check():
     nginx_installed = subprocess.Popen(

@@ -236,23 +236,23 @@ def web_static():
     print("   {99}-Back To The Main Menu \n\n")
     choice4 = input("TACP/WebStatic/ >> ")
     if choice4 == "1":
-        nginx_installed_check()
+        nginx_installed_check.nginx_installed_check()
         install_web_static("https://github.com/OmTegar/company-profile-sektema.git",
                            "/var/www/html/company-profile-sektema/")
     elif choice4 == "2":
-        nginx_installed_check()
+        nginx_installed_check.nginx_installed_check()
         install_web_static("https://github.com/OmTegar/my-company-profile.git",
                            "/var/www/html/my-company-profile/")
     elif choice4 == "3":
-        nginx_installed_check()
+        nginx_installed_check.nginx_installed_check()
         install_web_static(
             "https://github.com/OmTegar/company-aisyatul.git", "/var/www/html/company-aisyatul/")
     elif choice4 == "4":
-        nginx_installed_check()
+        nginx_installed_check.nginx_installed_check()
         install_web_static("https://github.com/OmTegar/test-bootstrap-studio.git",
                            "/var/www/html/test-bootstrap-studio/")
     elif choice4 == "5":
-        nginx_installed_check()
+        nginx_installed_check.nginx_installed_check()
         install_web_static("https://github.com/OmTegar/mini-games-html-css-js-basic.git",
                            "/var/www/html/mini-games-html-css-js-basic/")
     elif choice4 == "99":
