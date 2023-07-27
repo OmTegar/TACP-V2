@@ -647,7 +647,7 @@ def menu():
 
 if __name__ == "__main__":
     try:
-        update_system()
+        update_system.update_system()
         menu()
     except KeyboardInterrupt:
         print(" Finishing up...\r"),
