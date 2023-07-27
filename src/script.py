@@ -636,7 +636,7 @@ def menu():
         clearScr()
         menu()
     elif choice == "0":
-        update_tacp()
+        update_tacp.update_tacp()
     elif choice == "99":
         clearScr(), sys.exit()
     elif choice == "":
