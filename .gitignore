@@ -1,1 +1,9 @@
-src/Module/__pychache__/*',
+# src/__pychache__/*
+# src/Modules/__pychache__/*
+# src/Services/__pychache__/*
+
+# Ignore __pycache__ directories
+__pycache__/
+
+# Ignore .pyc files
+*.pyc
