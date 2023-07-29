@@ -1,7 +1,6 @@
 import subprocess
 import os
 
-from .configure_nginx import configure_nginx
 import config
 from ..script import web_static  
 
