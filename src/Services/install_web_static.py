@@ -1,10 +1,9 @@
-# Import fungsi clearScr dan web_static dari script.py
-from script import web_static
-
 import subprocess
 import os
 
+from .configure_nginx import configure_nginx
 from .. import config
+from ..script import web_static  
 
 def install_web_static(repository, path):
     try:

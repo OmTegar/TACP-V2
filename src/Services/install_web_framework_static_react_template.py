@@ -1,7 +1,7 @@
 import subprocess
 import os
 import time
-import configure_nginx
+from .configure_nginx import configure_nginx
 
 def install_web_framework_static_react_template(repository, path):
     try:
@@ -39,7 +39,7 @@ def install_web_framework_static_react_template(repository, path):
         subprocess.run(["pm2", "startup"])
         subprocess.run(["pm2", "save"])
 
-        configure_nginx(port)
+        configure_nginx.configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
 
     except subprocess.CalledProcessError as e:
