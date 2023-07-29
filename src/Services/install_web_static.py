@@ -2,7 +2,7 @@ import subprocess
 import os
 
 import config
-from ..script import web_static  
+from src.script import web_static  
 
 def install_web_static(repository, path):
     try:
