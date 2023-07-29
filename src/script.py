@@ -25,8 +25,10 @@ from Modules import apache_installed_check
 
 #     Import Custom Services    #
 from Services import install_web_static
+from Services import configure_nginx
 from Services import install_web_framework_static_react_template
 from Services import ftp_server_configure
+from Services import write_ftp_data
 
 ##########################
 

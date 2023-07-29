@@ -38,7 +38,7 @@ def install_web_static(repository, path):
         print(config.credit + """\033[1m
              [!] Credit By OmTegar [!] https://omtegar.me [!]
          """)
-        web_static()
+        web_static.web_static()
 
     except subprocess.CalledProcessError as e:
         print("There was an error during the installation process of the application:")
