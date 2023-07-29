@@ -39,7 +39,7 @@ def install_web_framework_static_react_template(repository, path):
         subprocess.run(["pm2", "startup"])
         subprocess.run(["pm2", "save"])
 
-        configure_nginx.configure_nginx(port)
+        configure_nginx(port)
         subprocess.run(["systemctl", "restart", "nginx"])
 
     except subprocess.CalledProcessError as e:
