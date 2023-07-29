@@ -1,8 +1,10 @@
 # Import fungsi clearScr dan web_static dari script.py
-from script import clearScr, web_static, credit
+from script import web_static
 
 import subprocess
 import os
+
+from .. import config
 
 def install_web_static(repository, path):
     try:
@@ -32,8 +34,8 @@ def install_web_static(repository, path):
 
         subprocess.run(["service", "apache2", "restart"])
 
-        clearScr()
-        print(credit + """\033[1m
+        config.clearScr()
+        print(config.credit + """\033[1m
              [!] Credit By OmTegar [!] https://omtegar.me [!]
          """)
         web_static()
