@@ -2,7 +2,7 @@ import subprocess
 import os
 
 from .configure_nginx import configure_nginx
-from .. import config
+import config
 from ..script import web_static  
 
 def install_web_static(repository, path):
